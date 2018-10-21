@@ -1,7 +1,9 @@
-package com.example.murat.m_onboarding;
+package activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.murat.m_onboarding.R;
 
 public class InstructionsActivity extends AppCompatActivity {
 
