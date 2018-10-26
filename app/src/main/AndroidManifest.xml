@@ -3,7 +3,7 @@
     package="com.example.murat.m_onboarding">
 
     <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-feature android:name="android.hardware.camera" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,12 +18,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="activities.InstructionsActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="activities.IDScanActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="activities.FaceScanActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="activities.VoiceRecognitionActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="activities.ResultsActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="activities.SignActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name="activities.InstructionsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <activity android:name="activities.IDScanActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name="activities.FaceScanActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <activity android:name="activities.VoiceRecognitionActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <activity android:name="activities.ResultsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <activity android:name="activities.SignActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
     </application>
 
 </manifest>

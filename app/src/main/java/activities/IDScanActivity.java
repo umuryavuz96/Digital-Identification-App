@@ -1,48 +1,36 @@
 package activities;
 
-import android.graphics.SurfaceTexture;
-import android.support.v7.app.AppCompatActivity;
+import android.hardware.Camera;
 import android.os.Bundle;
-import android.view.TextureView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.SurfaceView;
+import android.widget.FrameLayout;
 
 import com.example.murat.m_onboarding.R;
 
+import utils.CameraPreview;
+
+import static utils.Camera.getCameraInstance;
+
 public class IDScanActivity extends AppCompatActivity {
 
-    private TextureView camera;
+    private Camera mCamera;
+    private CameraPreview mPreview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idscan);
 
-        camera = (TextureView) findViewById(R.id.camera);
-
-        camera.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
-            @Override
-            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-                openCamera();
-            }
-
-            @Override
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
-
-            }
-
-            @Override
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-                return false;
-            }
-
-            @Override
-            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
-            }
-        });
+        // Create an instance of Camera
+        mCamera = getCameraInstance();
+        mPreview = new CameraPreview(this, mCamera);
+        mCamera.setDisplayOrientation(90);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
 
 
-    }
 
-    private void openCamera() {
 
     }
 }
