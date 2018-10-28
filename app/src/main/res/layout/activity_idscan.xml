@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -8,32 +10,87 @@
     <FrameLayout
         android:id="@+id/camera_frame"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    <FrameLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"/>
+        android:layout_alignParentStart="true"
 
-    <ImageView
-        android:id="@+id/id_template"
-        android:layout_width="326dp"
-        android:layout_height="558dp"
-        android:layout_gravity="center"
-        android:src="@drawable/id_template" />
+        android:layout_alignParentTop="true">
+
+        <FrameLayout
+            android:id="@+id/camera_preview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/id_template_bg"
+            android:layout_width="376dp"
+            android:layout_height="664dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/id_template_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/camera_preview"
+            app:layout_constraintTop_toTopOf="@+id/camera_preview" />
+
+        <ImageView
+            android:id="@+id/id_template"
+            android:layout_width="334dp"
+            android:layout_height="574dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/id_template"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/camera_preview"
+            app:layout_constraintTop_toTopOf="@+id/camera_preview" />
+
 
     </FrameLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/id_template_ins_1"
+        android:layout_width="347dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="63dp"
-        android:text="Please scan your ID to the template" />
+        android:layout_marginBottom="38dp"
+        android:text="@string/ins1"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="47dp" />
 
+    <TextView
+        android:id="@+id/id_template_ins_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Kimlik Kart Alanı"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:id="@+id/icon_id_front"
+        android:layout_width="68dp"
+        android:layout_height="59dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="77dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/icon_id_front" />
+
+    <ImageView
+        android:id="@+id/icon_id_back"
+        android:layout_width="68dp"
+        android:layout_height="59dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="77dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/icon_id_back" />
 
 
 </RelativeLayout>
