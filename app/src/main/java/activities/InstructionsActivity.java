@@ -3,8 +3,11 @@ package activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +15,16 @@ import android.widget.TextView;
 
 import com.example.murat.m_onboarding.R;
 
+import adapters.InstructionsPagerAdapter;
+
 public class InstructionsActivity extends AppCompatActivity {
 
-    private TextView done;
+
+
+    private ViewPager viewPager;
+
+    private InstructionsPagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,16 +38,16 @@ public class InstructionsActivity extends AppCompatActivity {
                     0);
         }
 
-        done = (TextView) findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToIDScan = new Intent(InstructionsActivity.this,IDScanActivity.class);
-                startActivity(goToIDScan);
-                finish();
-            }
-        });
 
+
+
+        viewPager = (ViewPager) findViewById(R.id.instructions_viewpager);
+        adapter = new InstructionsPagerAdapter
+                (getSupportFragmentManager(),this,this);
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager, true);
 
     }
 }

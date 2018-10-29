@@ -9,16 +9,18 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="176dp"
-        android:layout_height="308dp"
+        android:layout_width="373dp"
+        android:layout_height="435dp"
         android:layout_marginBottom="114dp"
         android:layout_marginEnd="108dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="89dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_lock_power_off"
-        android:contentDescription="TODO" />
+        app:layout_constraintVertical_bias="0.25" />
 </android.support.constraint.ConstraintLayout>
