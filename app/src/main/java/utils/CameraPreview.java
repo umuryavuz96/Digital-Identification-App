@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.FrameLayout;
 
 import java.io.IOException;
 
@@ -71,5 +72,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    public static void closeCameraAndPreview(Camera mCamera,CameraPreview mPreview, FrameLayout preview) {
+        if (mCamera != null) {
+            mCamera .stopPreview();
+            mCamera .setPreviewCallback(null);
+            mPreview.getHolder().removeCallback(mPreview);
+            mCamera .release();
+            mCamera = null;
+        }
+        preview.removeView(mPreview);
+    }
 
 }

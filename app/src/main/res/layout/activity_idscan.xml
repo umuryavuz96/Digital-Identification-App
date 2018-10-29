@@ -92,5 +92,13 @@
         android:layout_marginTop="10dp"
         app:srcCompat="@drawable/icon_id_back" />
 
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="Devam" />
+
 
 </RelativeLayout>

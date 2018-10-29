@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ public class IDScanActivity extends AppCompatActivity {
     private TextView instruction_1;
     private TextView instruction_2;
 
+    private Button nextButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class IDScanActivity extends AppCompatActivity {
         mCamera = getCameraInstance();
         mPreview = new CameraPreview(this, mCamera);
         mCamera.setDisplayOrientation(90);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        final FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
 
@@ -48,12 +51,24 @@ public class IDScanActivity extends AppCompatActivity {
         instruction_1 = (TextView) findViewById(R.id.id_template_ins_1);
         instruction_2 = (TextView) findViewById(R.id.id_template_ins_2);
 
+        nextButton=findViewById(R.id.nextButton);
 
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
+                Intent goToFaceScan = new Intent(getBaseContext(), FaceScanActivity.class);
+                startActivity(goToFaceScan);
+            }
+        });
 
 
 
 
     }
+
+
 
     @Override
     protected void onStart() {
