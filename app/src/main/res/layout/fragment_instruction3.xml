@@ -6,15 +6,32 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
+    <TextView
+        android:id="@+id/done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp"
+        android:text="@string/tamam"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="169dp"
+        tools:layout_editor_absoluteY="427dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="120dp">
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/facelogo"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_above="@+id/textView"
@@ -39,19 +56,16 @@
             android:textSize="18sp"
             tools:layout_editor_absoluteX="51dp"
             tools:layout_editor_absoluteY="362dp" />
+
+        <TextView
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="110dp"
+            android:text="3/3"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="209dp"
-        android:text="@string/tamam"
-        android:textColor="@android:color/white"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="169dp"
-        tools:layout_editor_absoluteY="427dp" />
 </RelativeLayout>

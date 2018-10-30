@@ -11,18 +11,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="120dp">
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:id="@+id/idlogo"
+            android:layout_width="75dp"
+            android:layout_height="55dp"
             android:layout_above="@+id/textView"
             android:layout_centerHorizontal="false"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="-200dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/idlogo" />
+            android:background="@drawable/idlogo"
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/textView"
@@ -38,6 +39,15 @@
             android:textSize="18sp"
             tools:layout_editor_absoluteX="51dp"
             tools:layout_editor_absoluteY="362dp" />
+
+        <TextView
+            android:id="@+id/indicator2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="110dp"
+            android:text="2/3"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>

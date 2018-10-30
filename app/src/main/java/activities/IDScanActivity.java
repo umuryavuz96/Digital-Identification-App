@@ -57,7 +57,7 @@ public class IDScanActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
+               //CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
                 Intent goToFaceScan = new Intent(getBaseContext(), FaceScanActivity.class);
                 startActivity(goToFaceScan);
             }
