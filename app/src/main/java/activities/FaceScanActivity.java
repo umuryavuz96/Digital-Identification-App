@@ -28,7 +28,7 @@ public class FaceScanActivity extends AppCompatActivity {
 
         // Create an instance of Camera
         mCamera = getCameraInstance();
-        mPreview = new CameraPreview(this, mCamera);
+        mPreview = new CameraPreview(this, mCamera,this);
         mCamera.setDisplayOrientation(90);
         final FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
