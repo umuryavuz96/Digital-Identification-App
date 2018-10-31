@@ -9,12 +9,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import fragments.Instruction1_Fragment;
 import fragments.Instruction2_Fragment;
 import fragments.Instruction3_Fragment;
+import fragments.Instruction4_Fragment;
+import fragments.Instruction5_Fragment;
 
 
 public class InstructionsPagerAdapter extends FragmentPagerAdapter {
 
-    final   int    PAGE_COUNT  = 3;
-    private String tabTitles[] = new String[]{"", "", ""};
+    final   int    PAGE_COUNT  = 5;
+    private String tabTitles[] = new String[]{"", "", "", "", ""};
     private Context context;
     private Activity activity;
 
@@ -40,6 +42,10 @@ public class InstructionsPagerAdapter extends FragmentPagerAdapter {
                 return new Instruction2_Fragment();
             case 2:
                 return new Instruction3_Fragment(context,activity);
+            case 3:
+                return new Instruction4_Fragment();
+            case 4:
+                return new Instruction5_Fragment();
             default:
                 return new Instruction2_Fragment();
         }
