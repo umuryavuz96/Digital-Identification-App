@@ -83,7 +83,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                                 stringBuilder.append(item.getValue());
                                 stringBuilder.append("\n");
                             }
-                            Toast.makeText(context,stringBuilder.toString(),Toast.LENGTH_LONG).show();
+                            Log.w("OCR",stringBuilder.toString());
                         }
                     });
                   t.start();
