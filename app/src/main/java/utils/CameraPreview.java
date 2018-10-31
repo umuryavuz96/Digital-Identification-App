@@ -51,7 +51,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         if(ocr){
-            OCR = new OCR(context);
+            OCR = new OCR(context,activity);
             OCR.setOCRprocessor();
         }
 

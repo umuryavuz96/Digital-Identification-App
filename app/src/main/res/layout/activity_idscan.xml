@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/id_template_bg"
-            android:layout_width="376dp"
-            android:layout_height="664dp"
+            android:layout_width="303dp"
+            android:layout_height="585dp"
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
@@ -38,8 +38,8 @@
 
         <ImageView
             android:id="@+id/id_template"
-            android:layout_width="334dp"
-            android:layout_height="574dp"
+            android:layout_width="274dp"
+            android:layout_height="495dp"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="15dp"
@@ -54,11 +54,11 @@
 
     <TextView
         android:id="@+id/id_template_ins_1"
-        android:layout_width="347dp"
+        android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="31dp"
         android:text="@string/ins1"
         android:textAlignment="center"
         android:textSize="16sp"
