@@ -40,14 +40,6 @@
             tools:layout_editor_absoluteX="51dp"
             tools:layout_editor_absoluteY="362dp" />
 
-        <TextView
-            android:id="@+id/indicator2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="110dp"
-            android:text="2/3"
-            android:textAlignment="center"
-            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>
