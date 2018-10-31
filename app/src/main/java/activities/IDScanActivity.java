@@ -41,6 +41,7 @@ public class IDScanActivity extends AppCompatActivity {
 
     private Button nextButton;
 
+    private Boolean OCR = true;
 
 
 
@@ -53,7 +54,7 @@ public class IDScanActivity extends AppCompatActivity {
 
         // Create an instance of Camera
         mCamera = getCameraInstance();
-        mPreview = new CameraPreview(this, mCamera,this);
+        mPreview = new CameraPreview(this, mCamera,this,OCR);
         mCamera.setDisplayOrientation(90);
         final FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);

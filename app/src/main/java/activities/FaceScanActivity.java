@@ -18,8 +18,8 @@ public class FaceScanActivity extends AppCompatActivity {
 
     private Camera mCamera;
     private CameraPreview mPreview;
-
     private Button nextButton2;
+    private Boolean OCR = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class FaceScanActivity extends AppCompatActivity {
 
         // Create an instance of Camera
         mCamera = getCameraInstance();
-        mPreview = new CameraPreview(this, mCamera,this);
+        mPreview = new CameraPreview(this, mCamera,this,OCR);
         mCamera.setDisplayOrientation(90);
         final FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
