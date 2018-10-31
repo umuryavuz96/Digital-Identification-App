@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <Button
-        android:id="@+id/done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="5dp"
-        android:text="@string/tamam"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="169dp"
-        tools:layout_editor_absoluteY="427dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +18,7 @@
             android:id="@+id/facelogo"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_above="@+id/textView"
+            android:layout_above="@+id/inst2"
             android:layout_centerHorizontal="false"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="-200dp"
@@ -44,7 +27,7 @@
             app:srcCompat="@drawable/facelogo" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/inst3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

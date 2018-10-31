@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:paddingTop="120dp">
+
+        <ImageView
+            android:id="@+id/soundwavelogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/inst2"
+            android:layout_centerHorizontal="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="-200dp"
+            android:background="@drawable/soundwavelogo"
+            android:scaleType="fitXY"
+            android:tint="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/inst4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="217dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text="Sesinizi tanıtmak için ekrandaki ekrana gelen yazıyı yüksek sesle okuyun."
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+</RelativeLayout>

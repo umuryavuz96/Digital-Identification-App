@@ -41,11 +41,11 @@ public class InstructionsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new Instruction2_Fragment();
             case 2:
-                return new Instruction3_Fragment(context,activity);
+                return new Instruction3_Fragment();
             case 3:
                 return new Instruction4_Fragment();
             case 4:
-                return new Instruction5_Fragment();
+                return new Instruction5_Fragment(context,activity);
             default:
                 return new Instruction2_Fragment();
         }
