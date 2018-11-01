@@ -6,11 +6,26 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tckn_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="150dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="TC :" />
+
+    <TextView
         android:id="@+id/tckn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:text="TextView" />
+        android:layout_alignTop="@+id/tckn_lbl"
+        android:layout_toEndOf="@+id/tckn_lbl"
+        android:text="TextView"
+        android:paddingLeft="10dp"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/activityheader"
@@ -23,20 +38,33 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:src="@drawable/person" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/imageView2"
         android:layout_marginEnd="50dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:src="@drawable/person" />
+
+    <Button
+        android:id="@+id/restart"
+        style="@android:style/Widget.Material.Button.Toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="126dp"
+        android:elevation="0dp"
+        android:text="Restart"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 </RelativeLayout>
