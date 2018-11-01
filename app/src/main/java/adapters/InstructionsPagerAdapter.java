@@ -45,7 +45,7 @@ public class InstructionsPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return new Instruction4_Fragment();
             case 4:
-                return new Instruction5_Fragment(context,activity);
+                return new Instruction5_Fragment(context,activity) ;
             default:
                 return new Instruction2_Fragment();
         }

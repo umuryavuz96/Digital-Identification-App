@@ -34,6 +34,7 @@ public class FaceScanActivity extends AppCompatActivity {
         preview.addView(mPreview);
 
 
+
         nextButton2 = findViewById(R.id.nextButton2);
 
         nextButton2.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +46,7 @@ public class FaceScanActivity extends AppCompatActivity {
 
             }
         });
+
 
 
     }

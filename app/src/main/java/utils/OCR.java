@@ -3,6 +3,7 @@ package utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -24,7 +25,7 @@ public class OCR{
     private ArrayList<String> string_list;
 
 
-    private Long id_n;
+    static public Long id_n;
     private String date_of_birth;
     private String name;
     private String surname;
@@ -119,6 +120,7 @@ public class OCR{
                             Log.w("OCR","Surname = " + surname);
                             Log.w("OCR","Date of Birth = "+ date_of_birth);
 
+
                         }
                     });
                     t.start();
@@ -127,6 +129,8 @@ public class OCR{
                 }
             }
         });
+
+
 
     }
 }
