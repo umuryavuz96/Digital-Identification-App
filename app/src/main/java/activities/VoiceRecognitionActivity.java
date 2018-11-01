@@ -24,7 +24,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
 
                 Intent goToSign = new Intent(getBaseContext(), SignActivity.class);
                 startActivity(goToSign);
-
+                finish();
             }
         });
     }

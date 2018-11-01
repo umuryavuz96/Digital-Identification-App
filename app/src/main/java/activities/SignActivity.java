@@ -31,6 +31,7 @@ public class SignActivity extends AppCompatActivity {
 
                 Intent goToResults = new Intent(getBaseContext(), ResultsActivity.class);
                 startActivity(goToResults);
+                finish();
 
             }
         });

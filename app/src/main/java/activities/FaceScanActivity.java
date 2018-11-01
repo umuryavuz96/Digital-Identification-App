@@ -43,6 +43,7 @@ public class FaceScanActivity extends AppCompatActivity {
                 CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
                 Intent goToVoiceRecognition = new Intent(getBaseContext(), VoiceRecognitionActivity.class);
                 startActivity(goToVoiceRecognition);
+                finish();
 
             }
         });

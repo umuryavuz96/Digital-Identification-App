@@ -73,6 +73,7 @@ public class IDScanActivity extends AppCompatActivity {
                //CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
                 Intent goToFaceScan = new Intent(getBaseContext(), FaceScanActivity.class);
                 startActivity(goToFaceScan);
+                finish();
             }
         });
 
