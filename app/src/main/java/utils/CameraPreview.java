@@ -134,6 +134,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public static void closeCameraAndPreview(Camera mCamera,CameraPreview mPreview, FrameLayout preview) {
+
         if (mCamera != null) {
             mCamera .stopPreview();
             mCamera .setPreviewCallback(null);
@@ -144,14 +145,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         preview.removeView(mPreview);
     }
 
+
     public static void setCameraSource(TextRecognizer textRecognizer){
-            cameraSource = new CameraSource.Builder(context, textRecognizer)
-                    .setFacing(CameraSource.CAMERA_FACING_BACK)
-                    .setRequestedPreviewSize(1280, 1024)
-                    .setRequestedFps(2.0f)
-                    .setAutoFocusEnabled(true)
-                    .build();
+        cameraSource = new CameraSource.Builder(context, textRecognizer)
+                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setRequestedPreviewSize(1280, 1024)
+                .setRequestedFps(4.0f)
+                .setAutoFocusEnabled(true)
+                .build();
 
     }
+
+
 
 }

@@ -15,7 +15,7 @@ public class CanvasView extends View {
 
     public int height;
     public int width;
-    private Bitmap mBitmap;
+    private static Bitmap mBitmap;
     private Canvas mCanvas;
     private Path mPath;
     private Paint mPaint;
@@ -32,9 +32,10 @@ public class CanvasView extends View {
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeWidth(4f);
+        mPaint.setStrokeWidth(6f);
 
     }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

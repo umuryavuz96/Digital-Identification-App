@@ -31,6 +31,7 @@ public class Instruction5_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_instruction5,container,false);
+
         done =  view.findViewById(R.id.startButton);
 
         done.setOnClickListener(new View.OnClickListener() {

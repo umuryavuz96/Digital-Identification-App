@@ -37,7 +37,7 @@ public class IDScanActivity extends AppCompatActivity {
 
     private ImageView id_template;
     private TextView instruction_1;
-    private TextView instruction_2;
+
 
     private Button nextButton;
 
@@ -53,16 +53,16 @@ public class IDScanActivity extends AppCompatActivity {
 
 
         // Create an instance of Camera
-        mCamera = getCameraInstance();
-        mPreview = new CameraPreview(this, mCamera,this,OCR);
+        mCamera = SplashActivity.mCamera;
+        mPreview = SplashActivity.cameraView;
         mCamera.setDisplayOrientation(90);
-        final FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        final FrameLayout preview =  findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
 
-        id_template = (ImageView) findViewById(R.id.id_template);
-        instruction_1 = (TextView) findViewById(R.id.id_template_ins_1);
-        instruction_2 = (TextView) findViewById(R.id.id_template_ins_2);
+        id_template =  findViewById(R.id.id_template);
+        instruction_1 = findViewById(R.id.id_template_ins_1);
+
 
         nextButton=findViewById(R.id.nextButton);
 
@@ -70,10 +70,11 @@ public class IDScanActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
+                //CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
                 Intent goToFaceScan = new Intent(getBaseContext(), FaceScanActivity.class);
                 startActivity(goToFaceScan);
                 finish();
+
             }
         });
 
@@ -100,7 +101,7 @@ public class IDScanActivity extends AppCompatActivity {
             break;
         }
     }
-
+/*
     @Override
     protected void onStart() {
         super.onStart();
@@ -130,4 +131,5 @@ public class IDScanActivity extends AppCompatActivity {
 
         splash.start();
     }
+    */
 }

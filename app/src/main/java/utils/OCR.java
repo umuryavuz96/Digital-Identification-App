@@ -114,11 +114,12 @@ public class OCR{
                                     }
                                 }
                             }
-//                            Log.w("OCR",stringBuilder.toString());
+                            Log.w("OCR",stringBuilder.toString());
                             Log.w("OCR", "ID = "+id_n);
                             Log.w("OCR","Name = "+name);
                             Log.w("OCR","Surname = " + surname);
                             Log.w("OCR","Date of Birth = "+ date_of_birth);
+                            Log.w("OCR","read: "+string_list);
 
 
                         }

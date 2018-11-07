@@ -1,7 +1,12 @@
 package activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +15,9 @@ import android.widget.Button;
 import android.app.AlertDialog.Builder;
 
 import com.example.murat.m_onboarding.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 
 import utils.CanvasView;
 
@@ -30,6 +38,8 @@ public class SignActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent goToResults = new Intent(getBaseContext(), ResultsActivity.class);
+                Bitmap b =getBitmapFromView(canvasView);
+                createImageFromBitmap(b);
                 startActivity(goToResults);
                 finish();
 
@@ -51,6 +61,40 @@ public class SignActivity extends AppCompatActivity {
         builder.show();
 
 
+    }
+
+    public static Bitmap getBitmapFromView(View view) {
+        //Define a bitmap with the same size as the view
+        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),Bitmap.Config.ARGB_8888);
+        //Bind a canvas to it
+        Canvas canvas = new Canvas(returnedBitmap);
+        //Get the view's background
+        Drawable bgDrawable =view.getBackground();
+        if (bgDrawable!=null)
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas);
+        else
+            //does not have background drawable, then draw white background on the canvas
+            canvas.drawColor(Color.WHITE);
+        // draw the view on the canvas
+        view.draw(canvas);
+        //return the bitmap
+        return returnedBitmap;
+    }
+
+    public String createImageFromBitmap(Bitmap bitmap) {
+        String fileName = "myImage";
+        try {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            FileOutputStream fo = openFileOutput(fileName, Context.MODE_PRIVATE);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fileName = null;
+        }
+        return fileName;
     }
 
     public void clearCanvas(View v){
