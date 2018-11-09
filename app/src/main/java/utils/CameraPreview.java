@@ -4,10 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.PixelCopy;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
@@ -35,6 +39,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     final int RequestCameraPermissionID = 1001;
     private Boolean ocr = false;
     private OCR OCR;
+    private  Camera.PictureCallback mPictureCallBack;
 
 
     public CameraPreview(final Context context, Camera camera, Activity activity, Boolean ocr) {
@@ -50,10 +55,19 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+
         if(ocr){
-            OCR = new OCR(context,activity);
+            OCR = new OCR(context,activity,this);
             OCR.setOCRprocessor();
+            mPictureCallBack = new Camera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] bytes, Camera camera) {
+                    OCR.setOCRprocessor_Image(bytes);
+                }
+            };
+
         }
+
 
     }
 
@@ -145,7 +159,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         preview.removeView(mPreview);
     }
 
-
     public static void setCameraSource(TextRecognizer textRecognizer){
         cameraSource = new CameraSource.Builder(context, textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
@@ -156,6 +169,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
-
+    public void captureImage(){
+        if (mCamera != null){
+            mCamera.takePicture(null,null,mPictureCallBack);
+        }
+    }
 
 }

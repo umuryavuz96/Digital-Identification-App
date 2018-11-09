@@ -3,18 +3,27 @@ package utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
+import android.widget.FrameLayout;
 
 import activities.FaceScanActivity;
+import models.ID;
 import utils.CameraPreview;
+
+import com.example.murat.m_onboarding.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class OCR{
 
@@ -22,7 +31,7 @@ public class OCR{
     private Context context;
     private StringBuilder stringBuilder;
     private Activity activity;
-    private ArrayList<String> string_list;
+    private ArrayList<String> item_list;
 
 
     static public Long id_n;
@@ -30,12 +39,24 @@ public class OCR{
     private String name;
     private String surname;
 
-    public OCR(Context context, Activity activity){
+    public Resources resources;
+    public Boolean id_detected = false;
+
+    public int image = R.drawable.kimlik;
+
+    static public ID id_instance;
+
+    private CameraPreview cameraPreview;
+
+    public OCR(Context context, Activity activity,CameraPreview cameraPreview){
         this.context = context;
         this.activity = activity;
+        this.cameraPreview = cameraPreview;
         textRecognizer = new TextRecognizer.Builder(context).build();
 
-        string_list = new ArrayList<>();
+        item_list = new ArrayList<>();
+
+        id_instance = new ID();
 
         if (!textRecognizer.isOperational()) {
             Log.w("MainActivity", "Detector dependencies are not yet available");
@@ -46,8 +67,7 @@ public class OCR{
 
     }
 
-    public static boolean isNumeric(String str)
-    {
+    public static boolean isNumeric(String str) {
         try
         {
             double d = Double.parseDouble(str);
@@ -58,6 +78,46 @@ public class OCR{
         }
         return true;
     }
+    public void setOCRprocessor_Image(final byte[] image_bitmap) {
+        resources = context.getResources();
+        textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
+            @Override
+            public void release() {
+
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<TextBlock> detections) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image_bitmap, 0,image_bitmap.length);
+
+                Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+
+                final SparseArray<TextBlock> items = textRecognizer.detect(frame);
+
+                if (items.size() != 0) {
+                    stringBuilder = new StringBuilder();
+
+                    for (int i = 0; i < items.size(); ++i) {
+                        TextBlock item = items.valueAt(i);
+                        stringBuilder.append(item.getValue());
+                        stringBuilder.append("\n");
+
+
+                    }
+
+                    parseID();
+                    Log.w("OCR", stringBuilder.toString());
+                    Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
+                    activity.startActivity(goToFaceScan);
+                    activity.finish();
+                }
+
+            }
+        });
+    }
+
+
+
 
     public void setOCRprocessor(){
         textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
@@ -76,61 +136,71 @@ public class OCR{
                         @Override
                         public void run() {
                             stringBuilder = new StringBuilder();
-                            string_list = new ArrayList<>();
                             for(int i =0;i<items.size();++i)
                             {
                                 TextBlock item = items.valueAt(i);
                                 stringBuilder.append(item.getValue());
-                                string_list.add(item.getValue());
                                 if(isNumeric(item.getValue().toString())) {
                                     if (item.getValue().toString().length() == 11) {
-                                        id_n = Long.parseLong(item.getValue());
-                                        Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
-                                        activity.startActivity(goToFaceScan);
-                                        activity.finish();
+                                          id_detected = true;
                                     }
                                 }
-
-
                                 stringBuilder.append("\n");
                             }
-
-
-                            //TODO : below code will be removed or updated
-                            for(int i=0;i<string_list.size();i++){
-                                if(string_list.get(i).contains("Date") || string_list.get(i).contains("Birth")){
-                                    if(i+1<string_list.size()) {
-                                        date_of_birth = string_list.get(i + 1);
-                                    }
-                                }
-                                if(string_list.get(i).contains("Surname")){
-                                    if(i+1<string_list.size()) {
-                                        surname = string_list.get(i + 1);
-                                    }
-                                }
-                                if(string_list.get(i).contains("Given") || string_list.get(i).contains("Name")){
-                                    if(i+1<string_list.size()) {
-                                        name = string_list.get(i + 1);
-                                    }
-                                }
-                            }
-                            Log.w("OCR",stringBuilder.toString());
-                            Log.w("OCR", "ID = "+id_n);
-                            Log.w("OCR","Name = "+name);
-                            Log.w("OCR","Surname = " + surname);
-                            Log.w("OCR","Date of Birth = "+ date_of_birth);
-                            Log.w("OCR","read: "+string_list);
-
-
                         }
                     });
                     t.start();
 
-
+                    if(id_detected){
+                        t.destroy();
+                        cameraPreview.captureImage();
+                    }
                 }
             }
         });
 
+
+
+    }
+
+    public void parseID(){
+
+        StringTokenizer tokenizer = new StringTokenizer(stringBuilder.toString(),"\n");
+        item_list = new ArrayList<>();
+        while(tokenizer.hasMoreElements()){
+            item_list.add(tokenizer.nextElement().toString());
+        }
+
+        for(int index = 0;index<item_list.size();index++){
+            if(item_list.get(index).equals("TC. Kmtik No / TR Identity No")){
+                id_instance.setID(Long.parseLong(item_list.get(index+1)));
+            }
+
+            if(item_list.get(index).equals("Soyadi/")){
+                id_instance.setSURNAME(item_list.get(index+1));
+            }
+
+            if(item_list.get(index).equals("Adi/ Given Name(s)")){
+                id_instance.setNAME(item_list.get(index+1));
+            }
+
+            if(item_list.get(index).equals("Dogum Tarih / Date Of Birth Cnsiyet / Gender")){
+                id_instance.setDATE_OF_BIRTH(item_list.get(index+1));
+            }
+
+            if(item_list.get(index).equals("Seri No/")){
+                id_instance.setSERIAL_NO(item_list.get(index+1));
+            }
+
+            if(item_list.get(index).equals("Son Gecerlilik/ Valid Until")){
+                id_instance.setVALID_UNTIL(item_list.get(index+1));
+            }
+
+            if(item_list.get(index).equals("Uyrugu/Nationality")){
+                id_instance.setNATIONALITY(item_list.get(index+1));
+            }
+
+        }
 
 
     }

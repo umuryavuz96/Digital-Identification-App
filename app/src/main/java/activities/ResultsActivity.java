@@ -15,14 +15,24 @@ import com.example.murat.m_onboarding.R;
 
 import java.io.FileNotFoundException;
 
+import models.ID;
 import utils.CanvasView;
 import utils.OCR;
 
 public class ResultsActivity extends AppCompatActivity {
-    private TextView tcknview;
+    private TextView tckn_text;
+    private TextView name;
+    private TextView surname;
+    private TextView date_of_birth;
+
+
+
+
     private Button restart;
     private ImageView signImage;
     private Bitmap signBitmap;
+
+    private ID id_instace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +57,18 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     public void fillFields(){
-        if(OCR.id_n != null){
-            long tckn= OCR.id_n;
-            tcknview= findViewById(R.id.tckn);
-            tcknview.setText("TC: "+tckn);
+        if(OCR.id_instance != null){
+            id_instace = OCR.id_instance;
+
+            tckn_text = (TextView) findViewById(R.id.tckn);
+            name = (TextView) findViewById(R.id.name);
+            surname = (TextView) findViewById(R.id.surname);
+            date_of_birth = (TextView) findViewById(R.id.date_of_birth);
+
+            tckn_text.setText(id_instace.getID()+"");
+            name.setText(id_instace.getNAME());
+            surname.setText(id_instace.getSURNAME());
+            date_of_birth.setText(id_instace.getDATE_OF_BIRTH());
         }
 
         try {
