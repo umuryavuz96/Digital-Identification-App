@@ -43,6 +43,8 @@ public class IDScanActivity extends AppCompatActivity {
 
     private Boolean OCR = true;
 
+    public static byte[] b;
+    public static CameraSource.PictureCallback mPictureCallBack;
 
 
     @Override
@@ -53,8 +55,13 @@ public class IDScanActivity extends AppCompatActivity {
 
 
         // Create an instance of Camera
-        mCamera = SplashActivity.mCamera;
-        mPreview = SplashActivity.cameraView;
+//        mCamera = SplashActivity.mCamera;
+//        mPreview = SplashActivity.cameraView;
+
+        mCamera = getCameraInstance();
+        mPreview  = new CameraPreview(this, mCamera,this,OCR);
+
+
         mCamera.setDisplayOrientation(90);
         final FrameLayout preview =  findViewById(R.id.camera_preview);
         preview.addView(mPreview);
@@ -77,6 +84,20 @@ public class IDScanActivity extends AppCompatActivity {
 
             }
         });
+
+        mPictureCallBack = new CameraSource.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes) {
+                System.out.print("CAPTURE CALLBACK");
+                Intent goImg = new Intent(IDScanActivity.this, TempImageClass.class);
+                b=bytes;
+                startActivity(goImg);
+                mPreview.OCR.setOCRprocessor_Image(bytes);
+                finish();
+            }
+        };
+
+
 
 
 
@@ -101,7 +122,7 @@ public class IDScanActivity extends AppCompatActivity {
             break;
         }
     }
-/*
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -110,7 +131,7 @@ public class IDScanActivity extends AppCompatActivity {
             public void run() {
                 try {
                     synchronized (this) {
-                        instruction_2.setVisibility(View.INVISIBLE);
+
                         wait(10000);
 
                         runOnUiThread(new Runnable() {
@@ -118,7 +139,7 @@ public class IDScanActivity extends AppCompatActivity {
                             public void run() {
                                 id_template.setVisibility(View.INVISIBLE);
                                 instruction_1.setVisibility(View.INVISIBLE);
-                                instruction_2.setVisibility(View.VISIBLE);
+
                             }
                         });
 
@@ -131,5 +152,5 @@ public class IDScanActivity extends AppCompatActivity {
 
         splash.start();
     }
-    */
+
 }

@@ -79,6 +79,8 @@ public class OCR{
         return true;
     }
     public void setOCRprocessor_Image(final byte[] image_bitmap) {
+        System.out.print("CAPTURE IMAGE OCR PROCESSİNG");
+
         resources = context.getResources();
         textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
             @Override
@@ -88,7 +90,7 @@ public class OCR{
 
             @Override
             public void receiveDetections(Detector.Detections<TextBlock> detections) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(image_bitmap, 0,image_bitmap.length);
+                 Bitmap bitmap = BitmapFactory.decodeByteArray(image_bitmap, 0,image_bitmap.length);
 
                 Frame frame = new Frame.Builder().setBitmap(bitmap).build();
 
@@ -120,6 +122,7 @@ public class OCR{
 
 
     public void setOCRprocessor(){
+
         textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
             @Override
             public void release() {
@@ -142,7 +145,10 @@ public class OCR{
                                 stringBuilder.append(item.getValue());
                                 if(isNumeric(item.getValue().toString())) {
                                     if (item.getValue().toString().length() == 11) {
+                                        id_n = Long.parseLong(item.getValue());
                                           id_detected = true;
+                                          cameraPreview.captureImage();
+                                        Log.w("OCR","ID DETECTED");
                                     }
                                 }
                                 stringBuilder.append("\n");
@@ -151,9 +157,8 @@ public class OCR{
                     });
                     t.start();
 
-                    if(id_detected){
+                    if (id_detected){
                         t.destroy();
-                        cameraPreview.captureImage();
                     }
                 }
             }
@@ -174,6 +179,8 @@ public class OCR{
         for(int index = 0;index<item_list.size();index++){
             if(item_list.get(index).equals("TC. Kmtik No / TR Identity No")){
                 id_instance.setID(Long.parseLong(item_list.get(index+1)));
+            }else{
+                id_instance.setID(id_n);
             }
 
             if(item_list.get(index).equals("Soyadi/")){

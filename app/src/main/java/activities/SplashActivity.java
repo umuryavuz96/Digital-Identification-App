@@ -29,8 +29,8 @@ public class SplashActivity extends AppCompatActivity {
         //reset fields for restart
         OCR.id_n=null;
 
-        mCamera = getCameraInstance();
-        cameraView  = new CameraPreview(this, mCamera,this,idOCR);
+//        mCamera = getCameraInstance();
+//        cameraView  = new CameraPreview(this, mCamera,this,idOCR);
 
        /*
         Thread splash = new Thread() {
