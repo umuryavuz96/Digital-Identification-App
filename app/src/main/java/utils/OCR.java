@@ -90,6 +90,8 @@ public class OCR{
 
             @Override
             public void receiveDetections(Detector.Detections<TextBlock> detections) {
+
+                //TODO : Rotate the taken photo for ocr process over landscaped photo
                  Bitmap bitmap = BitmapFactory.decodeByteArray(image_bitmap, 0,image_bitmap.length);
 
                 Frame frame = new Frame.Builder().setBitmap(bitmap).build();
