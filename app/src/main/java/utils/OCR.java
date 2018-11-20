@@ -48,6 +48,8 @@ public class OCR{
 
     private CameraPreview cameraPreview;
 
+    private int validity_count = 0;
+
     public OCR(Context context, Activity activity,CameraPreview cameraPreview){
         this.context = context;
         this.activity = activity;
@@ -61,6 +63,7 @@ public class OCR{
         if (!textRecognizer.isOperational()) {
             Log.w("MainActivity", "Detector dependencies are not yet available");
         } else {
+            textRecognizer.setFocus(1);
             CameraPreview.setCameraSource(textRecognizer);
         }
 
@@ -80,44 +83,52 @@ public class OCR{
     }
     public void setOCRprocessor_Image(final byte[] image_bitmap) {
         System.out.print("CAPTURE IMAGE OCR PROCESSİNG");
-
-        resources = context.getResources();
-        textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
+        Thread t = new Thread(new Runnable() {
             @Override
-            public void release() {
-
-            }
-
-            @Override
-            public void receiveDetections(Detector.Detections<TextBlock> detections) {
-
-                //TODO : Rotate the taken photo for ocr process over landscaped photo
-                 Bitmap bitmap = BitmapFactory.decodeByteArray(image_bitmap, 0,image_bitmap.length);
-
-                Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-
-                final SparseArray<TextBlock> items = textRecognizer.detect(frame);
-
-                if (items.size() != 0) {
-                    stringBuilder = new StringBuilder();
-
-                    for (int i = 0; i < items.size(); ++i) {
-                        TextBlock item = items.valueAt(i);
-                        stringBuilder.append(item.getValue());
-                        stringBuilder.append("\n");
-
+            public void run() {
+                resources = context.getResources();
+                textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
+                    @Override
+                    public void release() {
 
                     }
 
-                    parseID();
-                    Log.w("OCR", stringBuilder.toString());
-                    Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
-                    activity.startActivity(goToFaceScan);
-                    activity.finish();
-                }
+                    @Override
+                    public void receiveDetections(Detector.Detections<TextBlock> detections) {
 
+
+                        //TODO : Rotate the taken photo for ocr process over landscaped photo
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(image_bitmap, 0,image_bitmap.length);
+
+                        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+
+                        final SparseArray<TextBlock> items = textRecognizer.detect(frame);
+
+                        if (items.size() != 0) {
+                            stringBuilder = new StringBuilder();
+
+                            for (int i = 0; i < items.size(); ++i) {
+                                TextBlock item = items.valueAt(i);
+                                stringBuilder.append(item.getValue());
+                                stringBuilder.append("\n");
+
+
+                            }
+
+                            parseID();
+                            Log.w("OCR", stringBuilder.toString());
+                            Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
+                            activity.startActivity(goToFaceScan);
+                            activity.finish();
+                            return;
+                        }
+                    }
+                });
             }
         });
+
+        t.start();
+
     }
 
 
@@ -149,19 +160,28 @@ public class OCR{
                                     if (item.getValue().toString().length() == 11) {
                                         id_n = Long.parseLong(item.getValue());
                                           id_detected = true;
-                                          cameraPreview.captureImage();
+                                          //cameraPreview.captureImage();
                                         Log.w("OCR","ID DETECTED");
+//                                        return;
                                     }
                                 }
                                 stringBuilder.append("\n");
+
+                            }
+
+                            Log.w("OCR",stringBuilder.toString());
+                            parseID();
+                            if(checkId_valid()){
+                                Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
+                                activity.startActivity(goToFaceScan);
+                                activity.finish();
+                                return;
                             }
                         }
                     });
                     t.start();
 
-                    if (id_detected){
-                        t.destroy();
-                    }
+
                 }
             }
         });
@@ -179,38 +199,76 @@ public class OCR{
         }
 
         for(int index = 0;index<item_list.size();index++){
-            if(item_list.get(index).equals("TC. Kmtik No / TR Identity No")){
-                id_instance.setID(Long.parseLong(item_list.get(index+1)));
-            }else{
-                id_instance.setID(id_n);
+            if(item_list.get(index).contains("TC")){
+                if(id_instance.getID() == null) {
+                    if(index + 1 <= item_list.size()-1) {
+                        if(isNumeric(item_list.get(index+1))) {
+                            validity_count++;
+                            id_instance.setID(Long.parseLong(item_list.get(index + 1)));
+                        }
+                    }
+                }
             }
 
-            if(item_list.get(index).equals("Soyadi/")){
-                id_instance.setSURNAME(item_list.get(index+1));
+            if(item_list.get(index).contains("Soy")||item_list.get(index).contains("soy")||item_list.get(index).contains("SOY")||item_list.get(index).contains("SUR")||item_list.get(index).contains("sur")||item_list.get(index).contains("Sur")){
+                if(id_instance.getSURNAME() ==null) {
+                    if(index + 1 <= item_list.size()-1) {
+                        validity_count++;
+                        id_instance.setSURNAME(item_list.get(index + 1));
+                    }
+                }
             }
 
-            if(item_list.get(index).equals("Adi/ Given Name(s)")){
-                id_instance.setNAME(item_list.get(index+1));
+            if(item_list.get(index).contains("Adi") || item_list.get(index).contains("ADI")||item_list.get(index).contains("Nam")||item_list.get(index).contains("nam")||item_list.get(index).contains("NAM")){
+                if(id_instance.getNAME() ==null) {
+                    if(index + 1 <= item_list.size()-1) {
+                        validity_count++;
+                        id_instance.setNAME(item_list.get(index + 1));
+                    }
+                }
             }
 
-            if(item_list.get(index).equals("Dogum Tarih / Date Of Birth Cnsiyet / Gender")){
-                id_instance.setDATE_OF_BIRTH(item_list.get(index+1));
+            if(item_list.get(index).contains("Dog")||item_list.get(index).contains("dog")||item_list.get(index).contains("DOG")||item_list.get(index).contains("date")||item_list.get(index).contains("Date")){
+                if(id_instance.getDATE_OF_BIRTH() ==null) {
+                    if(index + 1 <= item_list.size()-1) {
+                        validity_count++;
+                        id_instance.setDATE_OF_BIRTH(item_list.get(index + 1));
+                    }
+                }
             }
 
             if(item_list.get(index).equals("Seri No/")){
-                id_instance.setSERIAL_NO(item_list.get(index+1));
+                if(id_instance.getSERIAL_NO() ==null)
+                    if(index + 1 <= item_list.size()-1) {
+                        id_instance.setSERIAL_NO(item_list.get(index + 1));
+                    }
             }
 
             if(item_list.get(index).equals("Son Gecerlilik/ Valid Until")){
-                id_instance.setVALID_UNTIL(item_list.get(index+1));
+                if(id_instance.getVALID_UNTIL() ==null)
+                    if(index + 1 <= item_list.size()-1) {
+                        id_instance.setVALID_UNTIL(item_list.get(index + 1));
+                    }
             }
 
             if(item_list.get(index).equals("Uyrugu/Nationality")){
-                id_instance.setNATIONALITY(item_list.get(index+1));
+                if(id_instance.getNATIONALITY() ==null)
+                    if(index + 1 <= item_list.size()-1) {
+                        id_instance.setNATIONALITY(item_list.get(index + 1));
+                    }
             }
 
         }
 
 
     }
+
+    public boolean checkId_valid(){
+        Log.w("Validity Count",validity_count+"");
+        if(validity_count == 4){
+            return true;
+        }
+        return false;
+    }
+
 }

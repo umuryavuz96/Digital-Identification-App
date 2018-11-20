@@ -59,10 +59,17 @@ public class IDScanActivity extends AppCompatActivity {
 //        mPreview = SplashActivity.cameraView;
 
         mCamera = getCameraInstance();
+        Camera.Parameters params = mCamera.getParameters();
+        params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        params.setAutoExposureLock(true);
+        params.setAutoWhiteBalanceLock(true);
+        params.setSceneMode(Camera.Parameters.SCENE_MODE_LANDSCAPE);
+        mCamera.setParameters(params);
         mPreview  = new CameraPreview(this, mCamera,this,OCR);
 
 
-        mCamera.setDisplayOrientation(90);
+
+
         final FrameLayout preview =  findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
