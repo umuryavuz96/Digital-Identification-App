@@ -24,15 +24,6 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/activityheader1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="FaceScanActivity"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
     <Button
         android:id="@+id/nextButton2"
         android:layout_width="wrap_content"
@@ -42,5 +33,12 @@
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="false"
         android:text="Devam" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:srcCompat="@drawable/facesil" />
 
 </RelativeLayout>
