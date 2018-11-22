@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KYC.iml" filepath="$PROJECT_DIR$/KYC.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MOnBoarding.iml" filepath="$PROJECT_DIR$/MOnBoarding.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/monboarding.iml" filepath="$PROJECT_DIR$/monboarding.iml" />
     </modules>
   </component>
 </project>
