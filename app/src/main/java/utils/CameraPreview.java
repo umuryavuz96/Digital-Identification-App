@@ -34,7 +34,7 @@ import static android.content.ContentValues.TAG;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
-    private Camera mCamera;
+    private static Camera mCamera;
     public SurfaceHolder mHolder;
     private static Context context;
     public static CameraSource cameraSource;
@@ -96,6 +96,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
 
+    }
+
+    public static void releaseCameras(){
+        cameraSource.stop();
+        if(mCamera != null){
+            mCamera.release();
+        }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -162,8 +169,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public static void setCameraSource(TextRecognizer textRecognizer) {
         cameraSource = new CameraSource.Builder(context, textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(4.0f)
+                .setRequestedPreviewSize(1920, 1080)
+                .setRequestedFps(60.0f)
                 .setAutoFocusEnabled(true)
                 .build();
 

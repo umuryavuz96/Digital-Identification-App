@@ -34,7 +34,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
 
         checkPermission();
         final EditText editText = findViewById(R.id.editText);
-        final EditText displayOutput = findViewById(R.id.displayOutput);
+        final TextView displayOutput = findViewById(R.id.displayOutput);
         final SpeechRecognizer mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -42,7 +42,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
                 "tr-TR");
 
-
+        displayOutput.setText("Mert eve git");
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
         mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
@@ -91,12 +91,11 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
 
 
                     if(displayOutput.getText().toString().equalsIgnoreCase(editText.getText().toString())){
-                        //Toast.makeText(VoiceRecognitionActivity.this,"Right on!",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(VoiceRecognitionActivity.this,"Right on!",Toast.LENGTH_LONG).show();
                         Intent goToSign = new Intent(VoiceRecognitionActivity.this, SignActivity.class);
                         startActivity(goToSign);
+                        finish();
                     }
-
-
             }
 
             @Override

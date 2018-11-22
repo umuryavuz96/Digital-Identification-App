@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:largeHeap="true"
         android:hardwareAccelerated="false"
@@ -43,10 +44,9 @@
             android:screenOrientation="portrait"
             />
 
-        <activity
-            android:screenOrientation="landscape"
-            android:name="activities.SignActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name="activities.SignActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="landscape"/>
 
         <activity android:name="activities.TempImageClass"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>

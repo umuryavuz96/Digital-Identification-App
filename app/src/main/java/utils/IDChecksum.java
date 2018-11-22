@@ -1,6 +1,8 @@
 package utils;
 
 
+import java.util.Arrays;
+
 public class IDChecksum {
 
     public IDChecksum(){
@@ -10,7 +12,8 @@ public class IDChecksum {
     public boolean validify(String id){
         //validify
 
-        String[] chars=id.split("");
+        String[] chars2=id.split("");
+        String[] chars = Arrays.copyOfRange(chars2,1,chars2.length);
 
         boolean isElevenDigits = (chars.length==11);
         boolean isFirstDigitZero =(chars[0]=="0");

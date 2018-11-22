@@ -18,8 +18,7 @@
         <FrameLayout
             android:id="@+id/camera_preview"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            >
+            android:layout_height="fill_parent">
 
         </FrameLayout>
 
@@ -44,8 +43,8 @@
 
             <ImageView
                 android:id="@+id/id_template_bg"
-                android:layout_width="481dp"
-                android:layout_height="282dp"
+                android:layout_width="503dp"
+                android:layout_height="298dp"
                 android:layout_gravity="center"
                 android:contentDescription="TODO"
 
@@ -62,11 +61,11 @@
 
     <TextView
         android:id="@+id/id_template_ins_1"
-        android:layout_width="151dp"
-        android:layout_height="350dp"
+        android:layout_width="169dp"
+        android:layout_height="62dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
+        android:layout_centerVertical="true"
+        android:autoText="false"
         android:gravity="center"
         android:rotation="270"
         android:text="@string/ins1"

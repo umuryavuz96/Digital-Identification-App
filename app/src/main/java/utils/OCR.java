@@ -32,23 +32,22 @@ public class OCR{
     private StringBuilder stringBuilder;
     private Activity activity;
     private ArrayList<String> item_list;
-
-
     static public Long id_n;
     private String date_of_birth;
     private String name;
     private String surname;
-
     public Resources resources;
     public Boolean id_detected = false;
-
     public int image = R.drawable.kimlik;
-
     static public ID id_instance;
-
     private CameraPreview cameraPreview;
-
     private int validity_count = 0;
+
+
+
+
+
+
 
     public OCR(Context context, Activity activity,CameraPreview cameraPreview){
         this.context = context;
@@ -81,6 +80,7 @@ public class OCR{
         }
         return true;
     }
+
     public void setOCRprocessor_Image(final byte[] image_bitmap) {
         System.out.print("CAPTURE IMAGE OCR PROCESSİNG");
         Thread t = new Thread(new Runnable() {
@@ -131,9 +131,6 @@ public class OCR{
 
     }
 
-
-
-
     public void setOCRprocessor(){
 
         textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
@@ -158,29 +155,37 @@ public class OCR{
                                 stringBuilder.append(item.getValue());
                                 if(isNumeric(item.getValue().toString())) {
                                     if (item.getValue().toString().length() == 11) {
-                                        id_n = Long.parseLong(item.getValue());
-
+                                          id_n = Long.parseLong(item.getValue());
 
                                           String idstr= id_n.toString();
+
                                           IDChecksum checker= new IDChecksum();
-                                          if(checker.validify(idstr))id_detected = true;
+
+                                          if(checker.validify(idstr)){
+                                              id_detected = true;
+                                              Log.w("OCR","ID DETECTED");
+                                          }else{
+                                              id_detected = false;
+                                          }
 
                                           //cameraPreview.captureImage();
-                                        Log.w("OCR","ID DETECTED");
+
 //                                        return;
                                     }
                                 }
                                 stringBuilder.append("\n");
 
                             }
-
-                            Log.w("OCR",stringBuilder.toString());
-                            parseID();
-                            if(checkId_valid()){
-                                Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
-                                activity.startActivity(goToFaceScan);
-                                activity.finish();
-                                return;
+                            if(id_detected) {
+                                Log.w("OCR", stringBuilder.toString());
+                                parseID();
+                                if (checkId_valid()) {
+                                    Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
+                                    cameraPreview.releaseCameras();
+                                    activity.startActivity(goToFaceScan);
+                                    activity.finish();
+                                    return;
+                                }
                             }
                         }
                     });
@@ -223,8 +228,7 @@ public class OCR{
                     }
                 }
             }
-
-            if(item_list.get(index).contains("Adi") || item_list.get(index).contains("ADI")||item_list.get(index).contains("Nam")||item_list.get(index).contains("nam")||item_list.get(index).contains("NAM")){
+            if(item_list.get(index).contains("giv") || item_list.get(index).contains("Adi") || item_list.get(index).contains("ADI")||item_list.get(index).contains("Nam")||item_list.get(index).contains("nam")||item_list.get(index).contains("NAM")){
                 if(id_instance.getNAME() ==null) {
                     if(index + 1 <= item_list.size()-1) {
                         validity_count++;
@@ -232,6 +236,7 @@ public class OCR{
                     }
                 }
             }
+
 
             if(item_list.get(index).contains("Dog")||item_list.get(index).contains("dog")||item_list.get(index).contains("DOG")||item_list.get(index).contains("date")||item_list.get(index).contains("Date")){
                 if(id_instance.getDATE_OF_BIRTH() ==null) {
