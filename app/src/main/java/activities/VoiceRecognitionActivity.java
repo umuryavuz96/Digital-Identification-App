@@ -23,14 +23,56 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.example.murat.m_onboarding.R;
 
 import utils.CameraPreview;
 
 public class VoiceRecognitionActivity extends AppCompatActivity {
-    final String[] testSentences = new String[40];
-    private String TAG = "AudioPermission";
+    final String[] testSentences = {
+            "Mert eve git",
+            "Mert bana bak",
+            "Mert okula git",
+            "Mert ata bak",
+            "Mert eve gel",
+            "Mert film izledi",
+            "Mert kalemi tut",
+            "Mert derse git",
+            "Mert topa bak",
+            "Mert proje yap",
+            "Zeynep eve git",
+            "Zeynep bana bak",
+            "Zeynep okula git",
+            "Zeynep ata bak",
+            "Zeynep eve gel",
+            "Zeynep film izledi",
+            "Zeynep kalemi tut",
+            "Zeynep derse git",
+            "Zeynep topa bak",
+            "Zeynep proje yap",
+            "Emre kitap oku",
+            "Emre ödev yap",
+            "Emre okulu bitirdi",
+            "Emre mezun oldu",
+            "Emre askere gitti",
+            "Emre askerden geldi",
+            "Emre okuldan geldi",
+            "Emre matematik biliyor",
+            "Emre telefonla oynama",
+            "Emre haber oku",
+            "Beril kitap oku",
+            "Beril ödev yap",
+            "Beril okulu bitirdi",
+            "Beril mezun oldu",
+            "Beril askere gitti",
+            "Beril askerden geldi",
+            "Beril okuldan geldi",
+            "Beril matematik biliyor",
+            "Beril telefonla oynama",
+            "Beril haber oku",
+    };
+
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private boolean permissionToRecordAccepted = false;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO};
@@ -52,7 +94,10 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
                 "tr-TR");
 
-        displayOutput.setText("Mert eve git");
+        int randomText = new Random().nextInt(testSentences.length-1);
+        displayOutput.setText(testSentences[randomText]);
+
+        //displayOutput.setText("Mert eve git");
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
         mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
