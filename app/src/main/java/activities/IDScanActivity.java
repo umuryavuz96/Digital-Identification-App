@@ -112,7 +112,7 @@ public class IDScanActivity extends AppCompatActivity {
                 try {
                     synchronized (this) {
 
-                        wait(10000);
+                        wait(2000);
 
                         runOnUiThread(new Runnable() {
                             @Override

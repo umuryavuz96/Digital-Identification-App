@@ -2,21 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@android:color/transparent">
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp"
-        android:paddingRight="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="11dp"
+        android:layout_marginEnd="14dp"
+        android:paddingEnd="15dp"
         android:paddingTop="5dp"
         android:text="@string/tamam"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -31,20 +32,17 @@
             android:id="@+id/signlogo"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_above="@+id/inst2"
-            android:layout_centerHorizontal="false"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="-200dp"
             android:background="@drawable/signlogo"
             android:scaleType="fitXY"
-            android:tint="@android:color/background_light" />
+            android:tint="@android:color/background_light"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/inst5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginTop="217dp"
             android:fontFamily="sans-serif"
             android:gravity="center"
