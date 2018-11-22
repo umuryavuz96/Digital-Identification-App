@@ -156,7 +156,12 @@ public class OCR{
                                 if(isNumeric(item.getValue().toString())) {
                                     if (item.getValue().toString().length() == 11) {
                                         id_n = Long.parseLong(item.getValue());
-                                          id_detected = true;
+
+
+                                          String idstr= id_n.toString();
+                                          IDChecksum checker= new IDChecksum();
+                                          if(checker.validify(idstr))id_detected = true;
+
                                           //cameraPreview.captureImage();
                                         Log.w("OCR","ID DETECTED");
 //                                        return;
