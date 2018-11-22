@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tckn_lbl"
         android:layout_below="@+id/surname"
-        android:text="Date of Birth "
+        android:text="@string/date_of_birth"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tckn_lbl"
         android:layout_below="@+id/name"
-        android:text="Surname "
+        android:text="@string/surname"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tckn_lbl"
         android:layout_below="@+id/tckn_lbl"
-        android:text="Name "
+        android:text="@string/name"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="36dp"
         android:layout_marginTop="150dp"
-        android:text="TC "
+        android:text="@string/TC"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -124,7 +124,7 @@
         android:layout_marginBottom="64dp"
         android:layout_toEndOf="@+id/imageView2"
         android:elevation="0dp"
-        android:text="Restart"
+        android:text="@string/Restart"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 </RelativeLayout>

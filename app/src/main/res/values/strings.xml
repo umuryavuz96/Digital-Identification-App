@@ -2,5 +2,11 @@
     <string name="app_name">M-OnBoarding</string>
     <string name="ins1">Telefonunuzu dik tutup kimliğinizin ön tarafını ekrandaki gibi alana yerleştirin.</string>
     <string name="ins2">Telefonunuzu dik tutup kimliğinizin arka tarafını ekrandaki gibi alana yerleştirin.</string>
-    <string name="tamam">Başla</string>
+    <string name="start">Başla</string>
+    <string name="date_of_birth">Date Of Birth: </string>
+    <string name="surname">Surname: </string>
+    <string name="name">Name: </string>
+    <string name="TC">TC: </string>
+    <string name="Restart">Restart</string>
+    <string name="guide">Bu metni yüksek sesle okuyunuz.</string>
 </resources>
