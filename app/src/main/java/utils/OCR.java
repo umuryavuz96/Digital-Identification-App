@@ -32,23 +32,22 @@ public class OCR{
     private StringBuilder stringBuilder;
     private Activity activity;
     private ArrayList<String> item_list;
-
-
     static public Long id_n;
     private String date_of_birth;
     private String name;
     private String surname;
-
     public Resources resources;
     public Boolean id_detected = false;
-
     public int image = R.drawable.kimlik;
-
     static public ID id_instance;
-
     private CameraPreview cameraPreview;
-
     private int validity_count = 0;
+
+
+
+
+
+
 
     public OCR(Context context, Activity activity,CameraPreview cameraPreview){
         this.context = context;
@@ -81,6 +80,7 @@ public class OCR{
         }
         return true;
     }
+
     public void setOCRprocessor_Image(final byte[] image_bitmap) {
         System.out.print("CAPTURE IMAGE OCR PROCESSİNG");
         Thread t = new Thread(new Runnable() {
@@ -131,9 +131,6 @@ public class OCR{
 
     }
 
-
-
-
     public void setOCRprocessor(){
 
         textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
@@ -173,6 +170,7 @@ public class OCR{
                             parseID();
                             if(checkId_valid()){
                                 Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
+                                cameraPreview.releaseCameras();
                                 activity.startActivity(goToFaceScan);
                                 activity.finish();
                                 return;

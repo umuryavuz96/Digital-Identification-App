@@ -3,14 +3,13 @@ package activities;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import com.example.murat.m_onboarding.R;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+
+import com.example.murat.m_onboarding.R;
 
 import utils.CameraPreview;
 import utils.OCR;
-
-import static utils.Camera.getCameraInstance;
 
 
 public class SplashActivity extends AppCompatActivity {

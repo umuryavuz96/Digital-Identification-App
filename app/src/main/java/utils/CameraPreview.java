@@ -34,7 +34,7 @@ import static android.content.ContentValues.TAG;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
-    private Camera mCamera;
+    private static Camera mCamera;
     public SurfaceHolder mHolder;
     private static Context context;
     public static CameraSource cameraSource;
@@ -96,6 +96,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
 
+    }
+
+    public static void releaseCameras(){
+        cameraSource.stop();
+        if(mCamera != null){
+            mCamera.release();
+        }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {

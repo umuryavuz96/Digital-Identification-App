@@ -89,12 +89,12 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
                 if (matches != null)
                     editText.setText(matches.get(0));
 
-                for(String m : matches){
                     if(displayOutput.getText().toString().equalsIgnoreCase(editText.getText().toString())){
-                        Toast.makeText(VoiceRecognitionActivity.this,"Right on!",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(VoiceRecognitionActivity.this,"Right on!",Toast.LENGTH_LONG).show();
+                        Intent goToSign = new Intent(VoiceRecognitionActivity.this, SignActivity.class);
+                        startActivity(goToSign);
+                        finish();
                     }
-                }
-
             }
 
             @Override
