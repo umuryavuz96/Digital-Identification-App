@@ -8,6 +8,7 @@ public class IDChecksum {
     }
 
     public boolean validify(String id){
+        //validify
 
         String[] chars=id.split("");
 
