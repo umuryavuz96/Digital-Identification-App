@@ -20,11 +20,6 @@
             android:layout_height="fill_parent"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/img"
-                android:layout_width="82dp"
-                android:layout_height="84dp"
-                android:scaleType="fitXY" />
 
         </FrameLayout>
 
@@ -59,5 +54,6 @@
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="false"
         android:text="Devam" />
+
 
 </RelativeLayout>

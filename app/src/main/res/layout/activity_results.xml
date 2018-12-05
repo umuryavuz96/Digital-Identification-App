@@ -88,7 +88,7 @@
         android:textSize="25sp" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/img"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentStart="true"
@@ -111,8 +111,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/imageView2"
-        android:layout_marginEnd="50dp"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginEnd="52dp"
         android:src="@drawable/person" />
 
     <Button
@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="64dp"
-        android:layout_toEndOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/img"
         android:elevation="0dp"
         android:text="@string/Restart"
         android:textAlignment="center"

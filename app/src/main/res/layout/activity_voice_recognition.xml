@@ -40,4 +40,13 @@
         android:text="@string/guide"
         android:layout_marginTop="261dp" />
 
+    <Button
+        android:id="@+id/gotosign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="319dp"
+        android:text="Done" />
+
 </RelativeLayout>

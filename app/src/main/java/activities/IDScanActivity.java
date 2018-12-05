@@ -43,7 +43,7 @@ public class IDScanActivity extends AppCompatActivity {
 
 
         //mCamera = getCameraInstance(false);
-        mPreview  = new CameraPreview(this,this,OCR);
+        mPreview  = new CameraPreview(this,this,true);
         final FrameLayout preview =  findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
@@ -66,17 +66,7 @@ public class IDScanActivity extends AppCompatActivity {
             }
         });
 
-        mPictureCallBack = new CameraSource.PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] bytes) {
-                System.out.print("CAPTURE CALLBACK");
-                Intent goImg = new Intent(IDScanActivity.this, TempImageClass.class);
-                b=bytes;
-                startActivity(goImg);
-                mPreview.OCR.setOCRprocessor_Image(bytes);
-                finish();
-            }
-        };
+
 
 
 
@@ -92,11 +82,7 @@ public class IDScanActivity extends AppCompatActivity {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
-                    try {
-                        mPreview.cameraSource.start(mPreview.mHolder);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    mPreview.startCameraSource(mPreview.mHolder);
 
                 }
             }

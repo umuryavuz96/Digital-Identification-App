@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.Voice;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +79,8 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
     private boolean permissionToRecordAccepted = false;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO};
 
+    private Button gotosign;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,18 @@ public class VoiceRecognitionActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
        // checkPermission();
+
+        gotosign = (Button) findViewById(R.id.gotosign);
+
+        gotosign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gotosing = new Intent(VoiceRecognitionActivity.this,SignActivity.class);
+                startActivity(gotosing);
+                finish();
+            }
+        });
+
         final EditText editText = findViewById(R.id.editText);
         final TextView displayOutput = findViewById(R.id.displayOutput);
         final SpeechRecognizer mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);

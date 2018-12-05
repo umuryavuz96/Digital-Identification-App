@@ -3,6 +3,7 @@ package activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.io.FileNotFoundException;
 
 import models.ID;
 import utils.CanvasView;
+import utils.FaceDetectAndCrop;
 import utils.OCR;
 
 public class ResultsActivity extends AppCompatActivity {
@@ -26,7 +28,8 @@ public class ResultsActivity extends AppCompatActivity {
     private TextView date_of_birth;
 
 
-
+    private ImageView img;
+    private ImageView img2;
 
     private Button restart;
     private ImageView signImage;
@@ -41,6 +44,8 @@ public class ResultsActivity extends AppCompatActivity {
 
         restart =   findViewById(R.id.restart);
         signImage = findViewById(R.id.signImage);
+        img = findViewById(R.id.img);
+        img2 = findViewById(R.id.imageView3);
 
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +64,9 @@ public class ResultsActivity extends AppCompatActivity {
     public void fillFields(){
         if(OCR.id_instance != null){
             id_instace = OCR.id_instance;
+
+            img.setImageBitmap(FaceDetectAndCrop.face_img);
+            img2.setImageBitmap(OCR.face);
 
             tckn_text = (TextView) findViewById(R.id.tckn);
             name = (TextView) findViewById(R.id.name);

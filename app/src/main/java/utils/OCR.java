@@ -12,6 +12,7 @@ import android.util.SparseArray;
 import android.widget.FrameLayout;
 
 import activities.FaceScanActivity;
+import activities.VoiceRecognitionActivity;
 import models.ID;
 import utils.CameraPreview;
 
@@ -44,7 +45,7 @@ public class OCR{
     private int validity_count = 0;
 
 
-
+    public static Bitmap face;
 
 
 
@@ -153,12 +154,11 @@ public class OCR{
                             {
                                 TextBlock item = items.valueAt(i);
                                 stringBuilder.append(item.getValue());
+                                Log.w("OCR_TEXT",validity_count+" items selected");
                                 if(isNumeric(item.getValue().toString())) {
                                     if (item.getValue().toString().length() == 11) {
                                           id_n = Long.parseLong(item.getValue());
-
                                           String idstr= id_n.toString();
-
                                           IDChecksum checker= new IDChecksum();
 
                                           if(checker.validify(idstr)){
@@ -167,10 +167,6 @@ public class OCR{
                                           }else{
                                               id_detected = false;
                                           }
-
-                                          //cameraPreview.captureImage();
-
-//                                        return;
                                     }
                                 }
                                 stringBuilder.append("\n");
@@ -180,10 +176,8 @@ public class OCR{
                                 Log.w("OCR", stringBuilder.toString());
                                 parseID();
                                 if (checkId_valid()) {
-                                    Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
-                                    cameraPreview.releaseCameras();
-                                    activity.startActivity(goToFaceScan);
-                                    activity.finish();
+                                    textRecognizer.release();
+                                    cameraPreview.captureImage();
                                     return;
                                 }
                             }

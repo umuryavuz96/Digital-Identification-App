@@ -58,10 +58,6 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:screenOrientation="landscape"/>
 
-        <activity android:name="activities.TempImageClass" android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
-
         <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr"/>
 
