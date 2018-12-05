@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import com.example.murat.m_onboarding.R;
 
 import utils.CameraPreview;
+import utils.FaceDetectAndCrop;
 
 import static utils.CameraKYC.getCameraInstance;
 
@@ -21,6 +22,8 @@ public class FaceScanActivity extends AppCompatActivity {
     private Button nextButton2;
     private Boolean OCR = false;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +31,13 @@ public class FaceScanActivity extends AppCompatActivity {
 
         // Create an instance of Camera
 
-        mCamera = getCameraInstance(true);
-        mCamera.setDisplayOrientation(90);
-        mPreview = new CameraPreview(this, mCamera,this,OCR);
+        //mCamera = getCameraInstance(true);
+        //mCamera.setDisplayOrientation(90);
+        mPreview = new CameraPreview(this,this,OCR);
 
         final FrameLayout preview = findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+
 
         nextButton2 = findViewById(R.id.nextButton2);
 

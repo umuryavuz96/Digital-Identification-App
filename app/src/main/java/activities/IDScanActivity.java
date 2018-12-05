@@ -42,8 +42,8 @@ public class IDScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_idscan);
 
 
-        mCamera = getCameraInstance(false);
-        mPreview  = new CameraPreview(this, mCamera,this,OCR);
+        //mCamera = getCameraInstance(false);
+        mPreview  = new CameraPreview(this,this,OCR);
         final FrameLayout preview =  findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
@@ -58,6 +58,7 @@ public class IDScanActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //CameraPreview.closeCameraAndPreview(mCamera,mPreview, preview);
+                mPreview.releaseCameras();
                 Intent goToFaceScan = new Intent(getBaseContext(), FaceScanActivity.class);
                 startActivity(goToFaceScan);
                 finish();

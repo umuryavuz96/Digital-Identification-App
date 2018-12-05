@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
@@ -45,18 +46,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public static boolean safeToTakePicture = false;
 
 
-
-    public CameraPreview(final Context context, Camera camera, final Activity activity, Boolean ocr) {
+    public CameraPreview(final Context context/*, Camera camera*/, final Activity activity, Boolean ocr) {
         super(context);
-        mCamera = camera;
+        //mCamera = camera;
         this.context = context;
         this.activity = activity;
         this.ocr = ocr;
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
         mHolder = getHolder();
         mHolder.addCallback(this);
-        // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
 
@@ -66,20 +63,38 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
 
-
-
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         if (!ocr) {
-            try {
-                mCamera.setPreviewDisplay(holder);
-                mCamera.startPreview();
-                safeToTakePicture = true;
-            } catch (IOException e) {
-                Log.d(TAG, "Error setting camera preview: " + e.getMessage());
+
+//                mCamera.setPreviewDisplay(holder);
+//                mCamera.startPreview();
+//                safeToTakePicture = true;
+
+
+            FaceDetector detector = new FaceDetector.Builder(context)
+                    .setTrackingEnabled(true)
+                    .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+                    .setMode(FaceDetector.ACCURATE_MODE)
+                    .build();
+
+            setCameraSource(detector);
+
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.CAMERA},
+                        RequestCameraPermissionID);
+                return;
             }
+            try {
+                cameraSource.start(mHolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         } else {
             try {
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -100,9 +115,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public static void releaseCameras(){
         cameraSource.stop();
-        if(mCamera != null){
-            mCamera.release();
-        }
+//        if(mCamera != null){
+//            mCamera.release();
+//        }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -123,7 +138,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             if (ocr) {
                 cameraSource.stop();
             } else {
-                mCamera.stopPreview();
+                cameraSource.stop();
+//                mCamera.stopPreview();
             }
         } catch (Exception e) {
             // ignore: tried to stop a non-existent preview
@@ -146,8 +162,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 cameraSource.start(mHolder);
 
             } else {
-                mCamera.setPreviewDisplay(mHolder);
-                mCamera.startPreview();
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.CAMERA},
+                            RequestCameraPermissionID);
+                    return;
+                }
+                cameraSource.start(mHolder);
+//                mCamera.setPreviewDisplay(mHolder);
+//                mCamera.startPreview();
             }
         } catch (Exception e) {
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
@@ -169,6 +193,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public static void setCameraSource(TextRecognizer textRecognizer) {
         cameraSource = new CameraSource.Builder(context, textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setRequestedPreviewSize(1920, 1080)
+                .setRequestedFps(60.0f)
+                .setAutoFocusEnabled(true)
+                .build();
+
+    }
+
+    public static void setCameraSource(FaceDetector faceDetector) {
+        cameraSource = new CameraSource.Builder(context, faceDetector)
+                .setFacing(CameraSource.CAMERA_FACING_FRONT)
                 .setRequestedPreviewSize(1920, 1080)
                 .setRequestedFps(60.0f)
                 .setAutoFocusEnabled(true)
