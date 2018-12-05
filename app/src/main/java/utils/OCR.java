@@ -202,11 +202,12 @@ public class OCR{
             item_list.add(tokenizer.nextElement().toString());
         }
 
-        for(int index = 0;index<item_list.size();index++){
-            if(item_list.get(index).contains("TC")){
-                if(id_instance.getID() == null) {
-                    if(index + 1 <= item_list.size()-1) {
-                        if(isNumeric(item_list.get(index+1))) {
+        Log.v("listitem","item list: " +item_list.toString());
+        for(int index = 0;index<item_list.size();index++) {
+            if (item_list.get(index).contains("TC")) {
+                if (id_instance.getID() == null) {
+                    if (index + 1 <= item_list.size() - 1) {
+                        if (isNumeric(item_list.get(index + 1))) {
                             validity_count++;
                             id_instance.setID(Long.parseLong(item_list.get(index + 1)));
                         }
@@ -214,17 +215,18 @@ public class OCR{
                 }
             }
 
-            if(item_list.get(index).contains("Soy")||item_list.get(index).contains("soy")||item_list.get(index).contains("SOY")||item_list.get(index).contains("SUR")||item_list.get(index).contains("sur")||item_list.get(index).contains("Sur")){
-                if(id_instance.getSURNAME() ==null) {
-                    if(index + 1 <= item_list.size()-1) {
-                        validity_count++;
-                        id_instance.setSURNAME(item_list.get(index + 1));
+             if (item_list.get(index).contains("Soy") || item_list.get(index).contains("SOY")||  item_list.get(index).contains("soy") ||  item_list.get(index).contains("Sur") ||  item_list.get(index).contains("SUR") ||  item_list.get(index).contains("sur") ) {
+
+                    if (id_instance.getSURNAME() == null) {
+                        if (index + 1 <= item_list.size() - 1) {
+                            validity_count++;
+                            id_instance.setSURNAME(item_list.get(index + 1));
+                        }
                     }
-                }
             }
-            if(item_list.get(index).contains("giv") || item_list.get(index).contains("Adi") || item_list.get(index).contains("ADI")||item_list.get(index).contains("Nam")||item_list.get(index).contains("nam")||item_list.get(index).contains("NAM")){
-                if(id_instance.getNAME() ==null) {
-                    if(index + 1 <= item_list.size()-1) {
+            if (/*item_list.get(index).contains("Ad") ||  item_list.get(index).contains("ad") || */item_list.get(index).contains("Giv") || item_list.get(index).contains("GIV") || item_list.get(index).contains("giv") || item_list.get(index).contains("(s)") || item_list.get(index).contains("e(s)") || item_list.get(index).contains("Nam")){
+                if (id_instance.getNAME() == null) {
+                    if (index + 1 <= item_list.size() - 1) {
                         validity_count++;
                         id_instance.setNAME(item_list.get(index + 1));
                     }
@@ -232,37 +234,37 @@ public class OCR{
             }
 
 
-            if(item_list.get(index).contains("Dog")||item_list.get(index).contains("dog")||item_list.get(index).contains("DOG")||item_list.get(index).contains("date")||item_list.get(index).contains("Date")){
-                if(id_instance.getDATE_OF_BIRTH() ==null) {
-                    if(index + 1 <= item_list.size()-1) {
-                        validity_count++;
-                        id_instance.setDATE_OF_BIRTH(item_list.get(index + 1));
+                if (item_list.get(index).contains("Dog") || item_list.get(index).contains("dog") || item_list.get(index).contains("DOG") || item_list.get(index).contains("date") || item_list.get(index).contains("Date")) {
+                    if (id_instance.getDATE_OF_BIRTH() == null) {
+                        if (index + 1 <= item_list.size() - 1) {
+                            validity_count++;
+                            id_instance.setDATE_OF_BIRTH(item_list.get(index + 1));
+                        }
                     }
                 }
-            }
 
-            if(item_list.get(index).equals("Seri No/")){
-                if(id_instance.getSERIAL_NO() ==null)
-                    if(index + 1 <= item_list.size()-1) {
-                        id_instance.setSERIAL_NO(item_list.get(index + 1));
-                    }
-            }
+                if (item_list.get(index).equals("Seri No/")) {
+                    if (id_instance.getSERIAL_NO() == null)
+                        if (index + 1 <= item_list.size() - 1) {
+                            id_instance.setSERIAL_NO(item_list.get(index + 1));
+                        }
+                }
 
-            if(item_list.get(index).equals("Son Gecerlilik/ Valid Until")){
-                if(id_instance.getVALID_UNTIL() ==null)
-                    if(index + 1 <= item_list.size()-1) {
-                        id_instance.setVALID_UNTIL(item_list.get(index + 1));
-                    }
-            }
+                if (item_list.get(index).equals("Son Gecerlilik/ Valid Until")) {
+                    if (id_instance.getVALID_UNTIL() == null)
+                        if (index + 1 <= item_list.size() - 1) {
+                            id_instance.setVALID_UNTIL(item_list.get(index + 1));
+                        }
+                }
 
-            if(item_list.get(index).equals("Uyrugu/Nationality")){
-                if(id_instance.getNATIONALITY() ==null)
-                    if(index + 1 <= item_list.size()-1) {
-                        id_instance.setNATIONALITY(item_list.get(index + 1));
-                    }
-            }
+                if (item_list.get(index).equals("Uyrugu/Nationality")) {
+                    if (id_instance.getNATIONALITY() == null)
+                        if (index + 1 <= item_list.size() - 1) {
+                            id_instance.setNATIONALITY(item_list.get(index + 1));
+                        }
+                }
 
-        }
+            }
 
 
     }
