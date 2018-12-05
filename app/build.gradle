@@ -20,6 +20,13 @@ android {
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
     }
 }
 
@@ -37,10 +44,10 @@ dependencies {
 
 
     //Base SDK
-    //implementation 'com.amazonaws:aws-android-sdk-core:2.8.4'
+    //implementation 'com.amazonaws:aws-android-sdk-core:2.8.+'
     //AppSync SDK
-    implementation 'com.amazonaws:aws-java-sdk-rekognition:1.11.462'
-    //implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.28'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-rekognition', version: '1.11.66'
+    //implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
