@@ -5,20 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.util.SparseArray;
-import android.widget.ImageView;
 
-import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
-import com.google.android.gms.vision.text.TextBlock;
-
-import activities.FaceScanActivity;
-import activities.VoiceRecognitionActivity;
 
 public class FaceDetectAndCrop{
 
