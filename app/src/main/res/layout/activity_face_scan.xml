@@ -53,6 +53,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="false"
+        android:visibility="gone"
         android:text="Devam" />
 
 

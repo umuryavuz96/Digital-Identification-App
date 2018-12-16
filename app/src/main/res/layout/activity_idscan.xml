@@ -104,6 +104,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="22dp"
         android:rotation="270"
+        android:visibility="gone"
         android:text="Devam" />
 
 
