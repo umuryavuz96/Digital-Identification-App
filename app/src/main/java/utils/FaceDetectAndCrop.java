@@ -5,12 +5,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Camera;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
+
+import activities.FaceScanActivity;
+import activities.SignActivity;
 
 public class FaceDetectAndCrop{
 
@@ -29,11 +34,21 @@ public class FaceDetectAndCrop{
     private FaceDetector fd;
 
     private Thread crop_face;
+    private Thread crop_face2;
     private ProgressDialog progressDoalog;
 
-    public FaceDetectAndCrop(final Context context, final Activity activity, final CameraPreview mPreview, final Class targetcontext, final boolean ocr) {
+    float left = 0;
+    float top = 0;
+    float right = 0;
+    float bottom = 0;
+
+    private boolean ocr = false;
+
+    private Class target_context;
+
+    public FaceDetectAndCrop(final Context context, final Activity activity) {
         this.context = context;
-        this.mPreview = mPreview;
+        this.mPreview = CameraPreview.get_instance();
         this.activity = activity;
 
         detector = new FaceDetector.Builder(context)
@@ -48,9 +63,12 @@ public class FaceDetectAndCrop{
                 .setMode(FaceDetector.ACCURATE_MODE)
                 .build();
 
+        set_ocr();
+        setTargetContext();
+
         if (!ocr){
             if(fd.isOperational()){
-                mPreview.setCameraSource(fd);
+                mPreview.setCameraSource(fd,context);
             }
         }
 
@@ -63,10 +81,12 @@ public class FaceDetectAndCrop{
                     mFaces = detector.detect(frame);
                     if(mFaces.size()>0){
                         Log.w("FACE","DETECTED FACES :"+mFaces.size());
+
                         float left = 0;
                         float top = 0;
                         float right = 0;
                         float bottom = 0;
+
                         for (int i = 0; i < mFaces.size(); i++) {
 
                             Face face = mFaces.valueAt(i);
@@ -77,17 +97,21 @@ public class FaceDetectAndCrop{
                         }
 
                         Bitmap face = Bitmap.createBitmap(mBitmap,(int) left, (int) top, (int) right, (int) bottom);
-                        face_img = face;
+
 
                         if(ocr){
                             OCR.face = face;
+                        }else{
+                            face_img = face;
                         }
+
                         DETECT_DONE = true;
                         detector.release();
-                        Intent goToVoiceRecognition = new Intent(context, targetcontext);
+                        Intent goToVoiceRecognition = new Intent(context, target_context);
                         activity.startActivity(goToVoiceRecognition);
                         activity.finish();
                         mPreview.releaseCameras();
+                        mPreview.reset_instances();
                         progressDoalog.dismiss();
                         return;
 
@@ -97,17 +121,73 @@ public class FaceDetectAndCrop{
             }
         });
 
+        crop_face2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (detector.isOperational()){
+                        Bitmap face = Bitmap.createBitmap(mBitmap,(int) left, (int) top, (int) right, (int) bottom);
+
+                        if(ocr){
+                            OCR.face = face;
+                        }else{
+                            face_img = face;
+                        }
+                        DETECT_DONE = true;
+                        detector.release();
+                        Intent goToVoiceRecognition = new Intent(context, target_context);
+                        activity.startActivity(goToVoiceRecognition);
+                        activity.finish();
+                        mPreview.releaseCameras();
+                        mPreview.reset_instances();
+                        progressDoalog.dismiss();
+
+                        return;
+
+                    }
+
+                }
+            });
+
     }
 
 
     public void setBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
+
         crop_face.start();
+        setProgressBar();
+    }
+
+    public void setBitmap(Bitmap bitmap,float left,float top,float right,float bottom) {
+        this.left = left;
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
+
+        mBitmap = bitmap;
+        crop_face2.start();
+        setProgressBar();
+    }
+
+    public void setProgressBar(){
         progressDoalog = new ProgressDialog(context);
         progressDoalog.setMessage("Please wait ...");
         progressDoalog.setTitle("Image processing");
         progressDoalog.show();
+        progressDoalog.setCancelable(false);
+    }
 
+    public void set_ocr(){
+        if(CameraPreview.OCR !=null){
+            this.ocr = true;
+        }
+    }
 
+    public void setTargetContext(){
+        if(CameraPreview.OCR != null){
+            this.target_context = FaceScanActivity.class;
+        }else{
+            this.target_context = SignActivity.class;
+        }
     }
 }

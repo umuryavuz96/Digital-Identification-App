@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.example.murat.m_onboarding.R;
 
 import utils.CameraPreview;
+import utils.FaceDetectAndCrop;
 
 public class FaceScanActivity extends AppCompatActivity {
 
@@ -27,9 +28,17 @@ public class FaceScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_face_scan);
 
 
-        mPreview = new CameraPreview(this,this,false);
-
+        mPreview = CameraPreview.get_instance();
+        mPreview.setActivity(this);
+        mPreview.setContext(this);
+        mPreview.setFaceDetectAndCrop(new FaceDetectAndCrop(this,this));
         final FrameLayout preview = findViewById(R.id.camera_preview);
+
+        if(mPreview.getLayout() != null){
+            mPreview.getLayout().removeView(mPreview);
+        }
+
+        mPreview.setLayout(preview);
         preview.addView(mPreview);
 
 

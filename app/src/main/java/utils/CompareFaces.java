@@ -4,14 +4,18 @@ package utils;
 //PDX-License-Identifier: MIT-0 (For details, see https://github.com/awsdocs/amazon-rekognition-developer-guide/blob/master/LICENSE-SAMPLECODE.)
 
 
+import android.content.Context;
+
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.rekognition.AmazonRekognition;
-import com.amazonaws.services.rekognition.AmazonRekognitionClientBuilder;
+import com.amazonaws.services.rekognition.AmazonRekognitionClient;
 import com.amazonaws.services.rekognition.model.Image;
 import com.amazonaws.services.rekognition.model.BoundingBox;
 import com.amazonaws.services.rekognition.model.CompareFacesMatch;
 import com.amazonaws.services.rekognition.model.CompareFacesRequest;
 import com.amazonaws.services.rekognition.model.CompareFacesResult;
 import com.amazonaws.services.rekognition.model.ComparedFace;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import java.util.List;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,33 +25,25 @@ import com.amazonaws.util.IOUtils;
 
 public class CompareFaces {
 
-    public CompareFaces(String source_img,String target_img) throws Exception{
-        Float similarityThreshold = 70F;
-        String sourceImage = source_img;
-        String targetImage = target_img;
+    public static String result;
 
-        ByteBuffer sourceImageBytes=null;
-        ByteBuffer targetImageBytes=null;
+    public CompareFaces(byte[] source_img,byte[] target_img,Context context) throws Exception{
+        Float similarityThreshold = 0F;
+        byte[] sourceImage = source_img;
+        byte[] targetImage = target_img;
 
-        AmazonRekognition rekognitionClient = AmazonRekognitionClientBuilder.defaultClient();
+        ByteBuffer sourceImageBytes=ByteBuffer.wrap(sourceImage);
+        ;
+        ByteBuffer targetImageBytes=ByteBuffer.wrap(targetImage);
+        ;
 
-        //Load source and target images and create input parameters
-        try (InputStream inputStream = new FileInputStream(new File(sourceImage))) {
-            sourceImageBytes = ByteBuffer.wrap(IOUtils.toByteArray(inputStream));
-        }
-        catch(Exception e)
-        {
-            System.out.println("Failed to load source image " + sourceImage);
-            System.exit(1);
-        }
-        try (InputStream inputStream = new FileInputStream(new File(targetImage))) {
-            targetImageBytes = ByteBuffer.wrap(IOUtils.toByteArray(inputStream));
-        }
-        catch(Exception e)
-        {
-            System.out.println("Failed to load target images: " + targetImage);
-            System.exit(1);
-        }
+        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+                context,
+                "us-east-2:86cb49aa-8f3f-49a2-a4af-78b3db0a26cc", // Identity pool ID
+                Regions.US_EAST_2 // Region
+        );
+
+        AmazonRekognition rekognitionClient = new AmazonRekognitionClient(credentialsProvider);
 
         Image source=new Image()
                 .withBytes(sourceImageBytes);
@@ -62,7 +58,6 @@ public class CompareFaces {
         // Call operation
         CompareFacesResult compareFacesResult=rekognitionClient.compareFaces(request);
 
-
         // Display results
         List <CompareFacesMatch> faceDetails = compareFacesResult.getFaceMatches();
         for (CompareFacesMatch match: faceDetails){
@@ -72,7 +67,7 @@ public class CompareFaces {
                     + " " + position.getTop()
                     + " matches with " + face.getConfidence().toString()
                     + "% confidence.");
-
+            result = face.getConfidence().toString();
         }
         //List<ComparedFace> uncompared = compareFacesResult.getUnmatchedFaces();
 

@@ -32,49 +32,70 @@ import static android.content.ContentValues.TAG;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
-    private static Camera mCamera;
     public SurfaceHolder mHolder;
     private static Context context;
     public static CameraSource cameraSource;
-    private Activity activity;
+    private static Activity activity;
     final int RequestCameraPermissionID = 1001;
-    private Boolean ocr = false;
     public static OCR OCR;
-    public FaceDetectAndCrop faceDetectAndCrop;
     public static boolean safeToTakePicture = false;
-    public boolean FaceScan = false;
+    public FaceDetectAndCrop faceDetectAndCrop;
+    public static CameraPreview instance;
+    private FrameLayout layout;
 
 
-    public CameraPreview(final Context context, final Activity activity, boolean ocr) {
+    public CameraPreview(final Context context, final Activity activity,FrameLayout layout) {
         super(context);
-        //mCamera = camera;
+
         this.context = context;
         this.activity = activity;
-        this.ocr = ocr;
+        this.layout = layout;
+
+        instance = this;
         mHolder = getHolder();
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+    }
 
-        if (ocr) {
-            OCR = new OCR(context, activity, this);
-            OCR.setOCRprocessor();
-            faceDetectAndCrop = new FaceDetectAndCrop(context, activity, this, FaceScanActivity.class,true);
-        } else {
-            faceDetectAndCrop = new FaceDetectAndCrop(context, activity, this, VoiceRecognitionActivity.class,false);
-        }
+    public void setFaceDetectAndCrop(FaceDetectAndCrop faceDetectAndCrop) {
+        this.faceDetectAndCrop = faceDetectAndCrop;
+    }
 
+    public void setLayout(FrameLayout layout) {
+        this.layout = layout;
+    }
 
+    public FrameLayout getLayout() {
+        return layout;
+    }
+
+    public void setContext(Context context) {
+        CameraPreview.context = context;
+    }
+
+    public void setActivity(Activity activity) {
+        CameraPreview.activity = activity;
+    }
+
+    public void setOCR(utils.OCR OCR) {
+        CameraPreview.OCR = OCR;
+    }
+
+    public static CameraPreview get_instance(){
+        return instance;
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
         try {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if(OCR != null) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.CAMERA},
-                        RequestCameraPermissionID);
-                return;
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.CAMERA},
+                            RequestCameraPermissionID);
+                    return;
+                }
             }
             cameraSource.start(mHolder);
         } catch (IOException e) {
@@ -83,7 +104,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
-    public void releaseCameras() {
+    public static void releaseCameras() {
         cameraSource.stop();
         if (cameraSource != null) {
             cameraSource.release();
@@ -96,7 +117,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         if (mHolder.getSurface() == null) {
-            // preview surface does not exist
             return;
         }
         try {
@@ -119,21 +139,18 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-
-    public static void setCameraSource(TextRecognizer textRecognizer) {
+    public static void setCameraSource(final TextRecognizer textRecognizer) {
         cameraSource = new CameraSource.Builder(context, textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedPreviewSize(1920, 1080)
+                .setRequestedPreviewSize(1280, 720 )
                 .setRequestedFps(60.0f)
                 .setAutoFocusEnabled(true)
                 .build();
 
     }
 
-    public void setCameraSource(final FaceDetector faceDetector) {
-
-
-        cameraSource = new CameraSource.Builder(context, faceDetector)
+    public void setCameraSource(final FaceDetector faceDetector,Context c) {
+        cameraSource = new CameraSource.Builder(c, faceDetector)
                 .setFacing(CameraSource.CAMERA_FACING_FRONT)
                 .setRequestedPreviewSize(1920, 1080)
                 .setRequestedFps(60.0f)
@@ -151,22 +168,29 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 final SparseArray<Face> items = detections.getDetectedItems();
                 if (items.size() != 0) {
                     Log.w("FACE", "FACE DETECTED!!");
-                    Bitmap face = null;
+
                     if (safeToTakePicture) {
-                        captureImage();
-                        safeToTakePicture = false;
-                        faceDetector.release();
+                        float left = 0;
+                        float top = 0;
+                        float right = 0;
+                        float bottom = 0;
+                        Face face = items.valueAt(0);
+                        left = (float) (face.getPosition().x);
+                        top = (float) (face.getPosition().y);
+                        right = (float) (face.getWidth());
+                        bottom = (float) (face.getHeight());
+                        captureImage(left, top, right, bottom);
 
+                        safeToTakePicture = true;
                     }
-
-
                 }
             }
         });
-
     }
 
     public void captureImage() {
+
+        //OCR.stop_ocr();
         Log.w("CAPTURE", "CAPTURE IMAGE");
         cameraSource.takePicture(null, new CameraSource.PictureCallback() {
             @Override
@@ -174,26 +198,28 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 Bitmap face = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 faceDetectAndCrop.setBitmap(face);
                 safeToTakePicture = true;
-
             }
         });
 
 
     }
 
-    public void setFaceDetectAndCrop(FaceDetectAndCrop faceDetectAndCrop) {
-        this.faceDetectAndCrop = faceDetectAndCrop;
+    public void captureImage(final float left, final float top, final float right, final float bottom) {
+        Log.w("CAPTURE", "CAPTURE IMAGE");
+        cameraSource.takePicture(null, new CameraSource.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes) {
+                Bitmap face = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                faceDetectAndCrop.setBitmap(face,left,top,right,bottom);
+                safeToTakePicture = true;
+            }
+        });
+
+
     }
 
     public void startCameraSource(SurfaceHolder holder) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         try {
@@ -201,5 +227,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void reset_instances(){
+        this.OCR = null;
+        context = null;
+        activity = null;
+    }
+
+    public void initOCR(){
+        OCR.start_ocr();
     }
 }

@@ -1,0 +1,32 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "a-20181213135001-authRole",
+			"UnauthRoleArn": "arn:aws:iam::322452707223:role/a-20181213135001-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::322452707223:role/a-20181213135001-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "a-20181213135001-deployment",
+			"UnauthRoleName": "a-20181213135001-unauthRole",
+			"StackName": "a-20181213135001",
+			"StackId": "arn:aws:cloudformation:us-east-1:322452707223:stack/a-20181213135001/d82ec8f0-fec4-11e8-b1a8-500c28b04cd1"
+		}
+	},
+	"api": {
+		"kyc": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"securityType": "API_KEY",
+				"GraphQLAPIIdOutput": "dixqge45lvgqxfphxlkfpe75ri",
+				"GraphQLAPIEndpointOutput": "https://4rahmtyvqvdznoxzykudrno4ea.appsync-api.us-east-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-apxt7yi33zbl3ltgi7ca7rvlnq"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/a-20181213135001-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apikyc"
+			},
+			"lastPushTimeStamp": "2018-12-13T11:03:59.372Z",
+			"lastPushDirHash": "vTcDkJ9UxG4fRi54w4fQ+oZ1MrA="
+		}
+	}
+}

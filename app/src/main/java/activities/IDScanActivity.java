@@ -20,6 +20,8 @@ import com.google.android.gms.vision.CameraSource;
 import java.io.IOException;
 
 import utils.CameraPreview;
+import utils.FaceDetectAndCrop;
+import utils.OCR;
 
 import static utils.CameraKYC.getCameraInstance;
 
@@ -42,10 +44,22 @@ public class IDScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_idscan);
 
 
-        //mCamera = getCameraInstance(false);
-        mPreview  = new CameraPreview(this,this,true);
+
+        mPreview = CameraPreview.get_instance();
+        mPreview.setActivity(this);
+        mPreview.setContext(this);
+        mPreview.setOCR(new OCR(this,this));
+        mPreview.setFaceDetectAndCrop(new FaceDetectAndCrop(this,this));
         final FrameLayout preview =  findViewById(R.id.camera_preview);
+
+        if(mPreview.getLayout() != null){
+            mPreview.getLayout().removeView(mPreview);
+        }
+
+        mPreview.setLayout(preview);
         preview.addView(mPreview);
+
+        //mPreview.initOCR();
 
 
 

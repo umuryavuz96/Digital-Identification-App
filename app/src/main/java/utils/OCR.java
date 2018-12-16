@@ -46,14 +46,14 @@ public class OCR{
 
 
     public static Bitmap face;
+    public static Thread ocr_process;
 
 
 
-
-    public OCR(Context context, Activity activity,CameraPreview cameraPreview){
+    public OCR(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
-        this.cameraPreview = cameraPreview;
+        this.cameraPreview = CameraPreview.get_instance();
         textRecognizer = new TextRecognizer.Builder(context).build();
 
         item_list = new ArrayList<>();
@@ -66,6 +66,8 @@ public class OCR{
             textRecognizer.setFocus(1);
             CameraPreview.setCameraSource(textRecognizer);
         }
+
+        setOCRprocessor();
 
 
     }
@@ -82,58 +84,7 @@ public class OCR{
         return true;
     }
 
-    public void setOCRprocessor_Image(final byte[] image_bitmap) {
-        System.out.print("CAPTURE IMAGE OCR PROCESSİNG");
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                resources = context.getResources();
-                textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
-                    @Override
-                    public void release() {
-
-                    }
-
-                    @Override
-                    public void receiveDetections(Detector.Detections<TextBlock> detections) {
-
-
-                        //TODO : Rotate the taken photo for ocr process over landscaped photo
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(image_bitmap, 0,image_bitmap.length);
-
-                        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-
-                        final SparseArray<TextBlock> items = textRecognizer.detect(frame);
-
-                        if (items.size() != 0) {
-                            stringBuilder = new StringBuilder();
-
-                            for (int i = 0; i < items.size(); ++i) {
-                                TextBlock item = items.valueAt(i);
-                                stringBuilder.append(item.getValue());
-                                stringBuilder.append("\n");
-
-
-                            }
-
-                            parseID();
-                            Log.w("OCR", stringBuilder.toString());
-                            Intent goToFaceScan = new Intent(context, FaceScanActivity.class);
-                            activity.startActivity(goToFaceScan);
-                            activity.finish();
-                            return;
-                        }
-                    }
-                });
-            }
-        });
-
-        t.start();
-
-    }
-
     public void setOCRprocessor(){
-
         textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
             @Override
             public void release() {
@@ -146,7 +97,7 @@ public class OCR{
                 final SparseArray<TextBlock> items = detections.getDetectedItems();
                 if(items.size() != 0)
                 {
-                    Thread t = new Thread(new Runnable() {
+                    ocr_process = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             stringBuilder = new StringBuilder();
@@ -161,7 +112,7 @@ public class OCR{
                                           String idstr= id_n.toString();
                                           IDChecksum checker= new IDChecksum();
 
-                                          if(checker.validify(idstr)){
+                                          if(/*checker.validify(idstr)*/true){
                                               id_detected = true;
                                               Log.w("OCR","ID DETECTED");
                                           }else{
@@ -183,15 +134,11 @@ public class OCR{
                             }
                         }
                     });
-                    t.start();
 
-
+                    ocr_process.start();
                 }
             }
         });
-
-
-
     }
 
     public void parseID(){
@@ -275,6 +222,20 @@ public class OCR{
             return true;
         }
         return false;
+    }
+
+    public void start_ocr(){
+        if(validity_count < 4){
+            ocr_process.start();
+        }
+    }
+
+    public void stop_ocr(){
+        if(validity_count == 4){
+            ocr_process.stop();
+            ocr_process.destroy();
+        }
+        ocr_process.stop();
     }
 
 }

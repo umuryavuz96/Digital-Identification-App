@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
 
 import com.example.murat.m_onboarding.R;
 
@@ -18,37 +19,20 @@ public class SplashActivity extends AppCompatActivity {
     public static CameraPreview cameraView;
     private Boolean idOCR = true;
     private Boolean faceOCR =false;
+    private CameraPreview mPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        mPreview = new CameraPreview(this,this, null);
+
         scheduleSplashScreen();
 
-        //reset fields for restart
         OCR.id_n=null;
 
-//        mCamera = getCameraInstance();
-//        cameraView  = new CameraPreview(this, mCamera,this,idOCR);
 
-       /*
-        Thread splash = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Intent goToInstructions = new Intent(SplashActivity.this,InstructionsActivity.class);
-                    sleep(2500);
-                    startActivity(goToInstructions);
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        splash.start();
-
-        */
     }
 
 

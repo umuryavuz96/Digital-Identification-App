@@ -1,5 +1,6 @@
 package activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,12 +8,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.app.AlertDialog.Builder;
 
 import com.example.murat.m_onboarding.R;
 
@@ -20,11 +22,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 
 import utils.CanvasView;
+import utils.CompareFaces;
+import utils.FaceDetectAndCrop;
+import utils.OCR;
 
 public class SignActivity extends AppCompatActivity {
 
     private CanvasView canvasView;
     private Button nextButton4;
+    public static Context context;
+    private ProgressDialog progressDoalog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +40,23 @@ public class SignActivity extends AppCompatActivity {
         canvasView= findViewById(R.id.canvasView);
         nextButton4=findViewById(R.id.nextButton4);
 
+
+        AsyncTaskRunner runner = new AsyncTaskRunner();
+        runner.execute();
+
+
+
+        context = this;
+
         nextButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent goToResults = new Intent(getBaseContext(), ResultsActivity.class);
-                Bitmap b =getBitmapFromView(canvasView);
-                createImageFromBitmap(b);
-                startActivity(goToResults);
-                finish();
+                progressDoalog = new ProgressDialog(context);
+                progressDoalog.setMessage("Please wait ...");
+                progressDoalog.setTitle("Comparing Results");
+                progressDoalog.show();
+                progressDoalog.setCancelable(false);
 
             }
         });
@@ -102,4 +117,44 @@ public class SignActivity extends AppCompatActivity {
     }
 
 
+    class AsyncTaskRunner extends AsyncTask<String, Void, Boolean> {
+        @Override
+        public Boolean doInBackground(String ... input){
+            byte[] source = getByteArrays(OCR.face);
+            byte[] target = getByteArrays(FaceDetectAndCrop.face_img);
+
+
+                try {
+                    CompareFaces compareFaces = new CompareFaces(source, target, context);
+
+                } catch (Exception e) {
+                    Log.e("Compare Faces", "Failed to initialize compare faces" + "\n error : " + e.toString());
+                }
+
+
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            Intent goToResults = new Intent(context, ResultsActivity.class);
+            Bitmap b =getBitmapFromView(canvasView);
+            createImageFromBitmap(b);
+            startActivity(goToResults);
+            finish();
+            progressDoalog.dismiss();
+
+        }
+
+        public byte[] getByteArrays(Bitmap img){
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            img.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            return byteArray;
+        }
+
+    }
 }

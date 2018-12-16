@@ -44,9 +44,10 @@
         android:id="@+id/gotosign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="319dp"
-        android:text="Done" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:text="Done"
+        android:textSize="18sp" />
 
 </RelativeLayout>

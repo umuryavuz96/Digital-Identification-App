@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 
 import models.ID;
 import utils.CanvasView;
+import utils.CompareFaces;
 import utils.FaceDetectAndCrop;
 import utils.OCR;
 
@@ -26,6 +27,7 @@ public class ResultsActivity extends AppCompatActivity {
     private TextView name;
     private TextView surname;
     private TextView date_of_birth;
+    private TextView result;
 
 
     private ImageView img;
@@ -46,6 +48,7 @@ public class ResultsActivity extends AppCompatActivity {
         signImage = findViewById(R.id.signImage);
         img = findViewById(R.id.img);
         img2 = findViewById(R.id.imageView3);
+        result = findViewById(R.id.result);
 
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,8 @@ public class ResultsActivity extends AppCompatActivity {
 
             img.setImageBitmap(FaceDetectAndCrop.face_img);
             img2.setImageBitmap(OCR.face);
+
+            result.setText(CompareFaces.result + " %");
 
             tckn_text = (TextView) findViewById(R.id.tckn);
             name = (TextView) findViewById(R.id.name);
