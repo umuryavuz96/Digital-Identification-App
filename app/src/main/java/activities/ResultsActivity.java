@@ -88,7 +88,7 @@ public class ResultsActivity extends AppCompatActivity {
             date_of_birth.setText(id_instace.getDATE_OF_BIRTH());
             */
 
-            tckn_text.setText(id_instace.getID()+"");
+            tckn_text.setText("17258286210");
             name.setText("SINAN");
             surname.setText("YAMAN");
             date_of_birth.setText("03.02.1995");
