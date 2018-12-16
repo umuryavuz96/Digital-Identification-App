@@ -42,7 +42,8 @@ public class SignActivity extends AppCompatActivity {
 
 
         AsyncTaskRunner runner = new AsyncTaskRunner();
-        runner.execute();
+        //TODO: THİS WİLL BE UNCOMMENTED
+        //runner.execute();
 
 
 
@@ -73,7 +74,7 @@ public class SignActivity extends AppCompatActivity {
                 .setTitle("İmza Onay");
 
         AlertDialog dialog = builder.create();
-        builder.show();
+         builder.show();
 
 
     }

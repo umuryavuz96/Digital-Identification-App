@@ -16,6 +16,7 @@ import com.google.android.gms.vision.face.FaceDetector;
 
 import activities.FaceScanActivity;
 import activities.SignActivity;
+import activities.VoiceRecognitionActivity;
 
 public class FaceDetectAndCrop{
 
@@ -187,7 +188,7 @@ public class FaceDetectAndCrop{
         if(CameraPreview.OCR != null){
             this.target_context = FaceScanActivity.class;
         }else{
-            this.target_context = SignActivity.class;
+            this.target_context = VoiceRecognitionActivity.class;
         }
     }
 }
