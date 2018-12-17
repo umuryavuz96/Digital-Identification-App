@@ -30,8 +30,7 @@ public class SignActivity extends AppCompatActivity {
 
     private CanvasView canvasView;
     private Button nextButton4;
-    public static Context context;
-    private ProgressDialog progressDoalog;
+    private CompareFaces compareFaces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +40,22 @@ public class SignActivity extends AppCompatActivity {
         nextButton4=findViewById(R.id.nextButton4);
 
 
-        AsyncTaskRunner runner = new AsyncTaskRunner();
-        //TODO: THİS WİLL BE UNCOMMENTED
-        //runner.execute();
-
-
-
-        context = this;
+        compareFaces = new CompareFaces(this,this);
 
         nextButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                progressDoalog = new ProgressDialog(context);
-                progressDoalog.setMessage("Please wait ...");
-                progressDoalog.setTitle("Comparing Results");
-                progressDoalog.show();
-                progressDoalog.setCancelable(false);
+
+                Bitmap b = getBitmapFromView(canvasView);
+                createImageFromBitmap(b);
+
+                byte[] source = getByteArrays(OCR.face);
+                byte[] target = getByteArrays(FaceDetectAndCrop.face_img);
+
+                byte[][] params = {source,target};
+
+                compareFaces.execute(params);
 
             }
         });
@@ -117,45 +115,11 @@ public class SignActivity extends AppCompatActivity {
         canvasView.clearCanvas();
     }
 
+    public byte[] getByteArrays(Bitmap img){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
 
-    class AsyncTaskRunner extends AsyncTask<String, Void, Boolean> {
-        @Override
-        public Boolean doInBackground(String ... input){
-            byte[] source = getByteArrays(OCR.face);
-            byte[] target = getByteArrays(FaceDetectAndCrop.face_img);
-
-
-                try {
-                    CompareFaces compareFaces = new CompareFaces(source, target, context);
-
-                } catch (Exception e) {
-                    Log.e("Compare Faces", "Failed to initialize compare faces" + "\n error : " + e.toString());
-                }
-
-
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean s) {
-            super.onPostExecute(s);
-            Intent goToResults = new Intent(context, ResultsActivity.class);
-            Bitmap b =getBitmapFromView(canvasView);
-            createImageFromBitmap(b);
-            startActivity(goToResults);
-            finish();
-            progressDoalog.dismiss();
-
-        }
-
-        public byte[] getByteArrays(Bitmap img){
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            img.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-
-            return byteArray;
-        }
-
+        return byteArray;
     }
 }

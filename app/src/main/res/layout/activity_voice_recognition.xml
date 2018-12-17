@@ -48,7 +48,7 @@
         android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
         android:text="Done"
-        android:visibility="gone"
+
         android:textSize="18sp" />
 
 </RelativeLayout>

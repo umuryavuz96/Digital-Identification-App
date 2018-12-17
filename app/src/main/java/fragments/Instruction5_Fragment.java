@@ -2,6 +2,7 @@ package fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class Instruction5_Fragment extends Fragment {
     private Button done;
     private Context context;
     private Activity activity;
+    private ProgressDialog progressDoalog;
 
     @SuppressLint("ValidFragment")
     public Instruction5_Fragment(Context context, Activity activity) {
@@ -37,9 +39,15 @@ public class Instruction5_Fragment extends Fragment {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDoalog = new ProgressDialog(context);
+                progressDoalog.setMessage("Loading Camera ...");
+                progressDoalog.show();
+                progressDoalog.setCancelable(false);
                 Intent goToIDScan = new Intent(context, IDScanActivity.class);
                 startActivity(goToIDScan);
                 activity.finish();
+
+                progressDoalog.dismiss();
             }
         });
 

@@ -1,6 +1,7 @@
 package utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -80,6 +81,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public void setOCR(utils.OCR OCR) {
         CameraPreview.OCR = OCR;
+        CameraPreview.OCR.setOCRprocessor();
     }
 
     public static CameraPreview get_instance(){
@@ -115,6 +117,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // empty. Take care of releasing the Camera preview in your activity.
     }
 
+    @SuppressLint("MissingPermission")
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         if (mHolder.getSurface() == null) {
             return;
@@ -125,13 +128,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         }
         try {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.CAMERA},
-                        RequestCameraPermissionID);
-                return;
-            }
             cameraSource.start(mHolder);
             safeToTakePicture = true;
         } catch (Exception e) {
@@ -146,6 +143,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 .setRequestedFps(60.0f)
                 .setAutoFocusEnabled(true)
                 .build();
+
 
     }
 
@@ -180,8 +178,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                         right = (float) (face.getWidth());
                         bottom = (float) (face.getHeight());
                         captureImage(left, top, right, bottom);
-
-                        safeToTakePicture = true;
                     }
                 }
             }
@@ -216,6 +212,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         });
 
 
+    }
+
+    public static void check_ID_validity(){
+        Log.w("CAPTURE", "Checking ID validity");
+        cameraSource.takePicture(null, new CameraSource.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes) {
+                ID_Validity id_validity = new ID_Validity(context,activity);
+                id_validity.execute(bytes);
+            }
+        });
     }
 
     public void startCameraSource(SurfaceHolder holder) {

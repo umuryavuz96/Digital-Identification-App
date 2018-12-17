@@ -59,7 +59,8 @@ public class IDScanActivity extends AppCompatActivity {
         mPreview.setLayout(preview);
         preview.addView(mPreview);
 
-        //mPreview.initOCR();
+
+
 
 
 

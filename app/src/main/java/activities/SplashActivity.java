@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 import com.example.murat.m_onboarding.R;
 
 import utils.CameraPreview;
+import utils.CompareFaces;
+import utils.ID_Validity;
 import utils.OCR;
 
 
@@ -31,6 +33,11 @@ public class SplashActivity extends AppCompatActivity {
         scheduleSplashScreen();
 
         OCR.id_n=null;
+
+        ID_Validity.valid = false;
+
+        CompareFaces.result = "";
+
 
 
     }

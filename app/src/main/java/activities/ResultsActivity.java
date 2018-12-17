@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.murat.m_onboarding.R;
 
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 
 import models.ID;
 import utils.CanvasView;
@@ -71,28 +72,18 @@ public class ResultsActivity extends AppCompatActivity {
             img.setImageBitmap(FaceDetectAndCrop.face_img);
             img2.setImageBitmap(OCR.face);
 
-            //TODO: THİS WİLL BE UNCOMMENTED
-            //result.setText(CompareFaces.result + " %");
-            result.setText("76" + " %");
+
+            result.setText(CompareFaces.result + "%");
 
             tckn_text = (TextView) findViewById(R.id.tckn);
             name = (TextView) findViewById(R.id.name);
             surname = (TextView) findViewById(R.id.surname);
             date_of_birth = (TextView) findViewById(R.id.date_of_birth);
 
-            //TODO: THİS WİLL BE UNCOMMENTED
-            /*
             tckn_text.setText(id_instace.getID()+"");
             name.setText(id_instace.getNAME());
             surname.setText(id_instace.getSURNAME());
             date_of_birth.setText(id_instace.getDATE_OF_BIRTH());
-            */
-
-            tckn_text.setText("17258286210");
-            name.setText("SINAN");
-            surname.setText("YAMAN");
-            date_of_birth.setText("03.02.1995");
-
         }
 
         try {

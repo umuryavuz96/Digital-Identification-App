@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import activities.FaceScanActivity;
 import activities.VoiceRecognitionActivity;
@@ -46,7 +47,9 @@ public class OCR{
 
 
     public static Bitmap face;
+    public static Bitmap face_byte;
     public static Thread ocr_process;
+    private boolean checkID = true;
 
 
 
@@ -67,8 +70,6 @@ public class OCR{
             CameraPreview.setCameraSource(textRecognizer);
         }
 
-        setOCRprocessor();
-
 
     }
 
@@ -85,6 +86,8 @@ public class OCR{
     }
 
     public void setOCRprocessor(){
+
+
         textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
             @Override
             public void release() {
@@ -105,7 +108,7 @@ public class OCR{
                             {
                                 TextBlock item = items.valueAt(i);
                                 stringBuilder.append(item.getValue());
-                                Log.w("OCR_TEXT",validity_count+" items selected");
+                                Log.w("OTEXT",validity_count+" items selected");
                                 if(isNumeric(item.getValue().toString())) {
                                     if (item.getValue().toString().length() == 11) {
                                           id_n = Long.parseLong(item.getValue());
@@ -113,8 +116,17 @@ public class OCR{
                                           IDChecksum checker= new IDChecksum();
 
                                           if(/*checker.validify(idstr)*/true){
-                                              id_detected = true;
-                                              Log.w("OCR","ID DETECTED");
+                                              if(checkID) {
+                                                  cameraPreview.check_ID_validity();
+                                                  checkID = false;
+                                              }
+
+                                              if(ID_Validity.valid) {
+                                                  id_detected = true;
+                                                  Log.w("OCR", "ID DETECTED");
+                                              }else{
+                                                  return;
+                                              }
                                           }else{
                                               id_detected = false;
                                           }
@@ -134,8 +146,10 @@ public class OCR{
                             }
                         }
                     });
+                        ocr_process.start();
 
-                    ocr_process.start();
+
+
                 }
             }
         });
