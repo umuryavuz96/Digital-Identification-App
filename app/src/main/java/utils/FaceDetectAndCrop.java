@@ -9,12 +9,14 @@ import android.graphics.Camera;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.example.murat.m_onboarding.R;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
 import activities.FaceScanActivity;
+import activities.IDScanActivity;
 import activities.SignActivity;
 import activities.VoiceRecognitionActivity;
 
@@ -171,6 +173,7 @@ public class FaceDetectAndCrop{
     }
 
     public void setProgressBar(){
+        IDScanActivity.icon_id_back.setImageResource(R.drawable.icon_id_back_fin);
         progressDoalog = new ProgressDialog(context);
         progressDoalog.setMessage("Please wait ...");
         progressDoalog.setTitle("Image processing");

@@ -44,7 +44,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/facesil" />
+        android:src="@drawable/facesil"
+        android:id="@+id/imageView" />
+
     <Button
         android:id="@+id/nextButton2"
         android:layout_width="wrap_content"

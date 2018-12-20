@@ -77,12 +77,12 @@
         android:id="@+id/icon_id_front"
         android:layout_width="68dp"
         android:layout_height="59dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_below="@+id/nextButton"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/nextButton"
         android:contentDescription="TODO"
-        android:rotation="270"
+        android:rotation="0"
         app:srcCompat="@drawable/icon_id_front" />
 
     <ImageView
@@ -93,7 +93,7 @@
         android:layout_alignStart="@+id/icon_id_front"
         android:layout_marginBottom="41dp"
         android:contentDescription="TODO"
-        android:rotation="270"
+        android:rotation="0"
         app:srcCompat="@drawable/icon_id_back" />
 
     <Button

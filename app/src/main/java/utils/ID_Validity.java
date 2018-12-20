@@ -15,8 +15,11 @@ import com.amazonaws.services.rekognition.model.DetectLabelsRequest;
 import com.amazonaws.services.rekognition.model.DetectLabelsResult;
 import com.amazonaws.services.rekognition.model.Image;
 import com.amazonaws.services.rekognition.model.Label;
+import com.example.murat.m_onboarding.R;
 
 import java.nio.ByteBuffer;
+
+import activities.IDScanActivity;
 
 public class ID_Validity extends AsyncTask<byte[], Void, Boolean>{
 
@@ -86,6 +89,7 @@ public class ID_Validity extends AsyncTask<byte[], Void, Boolean>{
         activity.runOnUiThread(new Runnable() {
             public void run() {
                 if(ID_Validity.valid) {
+                    IDScanActivity.icon_id_front.setImageResource(R.drawable.icon_id_front_fin);
                     Toast.makeText(context,"ID is valid",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context,"ID is not valid",Toast.LENGTH_SHORT).show();

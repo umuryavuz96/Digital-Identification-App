@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import activities.FaceScanActivity;
+import activities.IDScanActivity;
 import activities.VoiceRecognitionActivity;
 import models.ID;
 import utils.CameraPreview;
@@ -140,6 +141,7 @@ public class OCR{
                                 parseID();
                                 if (checkId_valid()) {
                                     textRecognizer.release();
+
                                     cameraPreview.captureImage();
                                     return;
                                 }

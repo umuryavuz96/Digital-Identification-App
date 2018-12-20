@@ -33,6 +33,8 @@ public class IDScanActivity extends AppCompatActivity {
     private TextView instruction_1;
     private Button nextButton;
     private Boolean OCR = true;
+    public static ImageView icon_id_front;
+    public static ImageView icon_id_back;
 
     public static byte[] b;
     public static CameraSource.PictureCallback mPictureCallBack;
@@ -59,15 +61,11 @@ public class IDScanActivity extends AppCompatActivity {
         mPreview.setLayout(preview);
         preview.addView(mPreview);
 
-
-
-
-
-
-
         id_template =  findViewById(R.id.id_template);
         instruction_1 = findViewById(R.id.id_template_ins_1);
         nextButton=findViewById(R.id.nextButton);
+        icon_id_front=findViewById(R.id.icon_id_front);
+        icon_id_back=findViewById(R.id.icon_id_back);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
