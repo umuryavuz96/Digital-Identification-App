@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.murat.m_onboarding.R;
@@ -33,8 +34,9 @@ public class IDScanActivity extends AppCompatActivity {
     private TextView instruction_1;
     private Button nextButton;
     private Boolean OCR = true;
-    public static ImageView icon_id_front;
-    public static ImageView icon_id_back;
+    private LinearLayout checklist;
+    private ImageView icon1;
+    private ImageView icon2;
 
     public static byte[] b;
     public static CameraSource.PictureCallback mPictureCallBack;
@@ -61,11 +63,17 @@ public class IDScanActivity extends AppCompatActivity {
         mPreview.setLayout(preview);
         preview.addView(mPreview);
 
+
+
+
+        icon1 = findViewById(R.id.icon_id_front);
+        icon2 = findViewById(R.id.icon_id_back);
+
+
         id_template =  findViewById(R.id.id_template);
         instruction_1 = findViewById(R.id.id_template_ins_1);
+        checklist = findViewById(R.id.checklist);
         nextButton=findViewById(R.id.nextButton);
-        icon_id_front=findViewById(R.id.icon_id_front);
-        icon_id_back=findViewById(R.id.icon_id_back);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,14 +120,14 @@ public class IDScanActivity extends AppCompatActivity {
                 try {
                     synchronized (this) {
 
-                        wait(2000);
+                        wait(5000);
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 id_template.setVisibility(View.INVISIBLE);
                                 instruction_1.setVisibility(View.INVISIBLE);
-
+                                checklist.setVisibility(View.VISIBLE);
                             }
                         });
 

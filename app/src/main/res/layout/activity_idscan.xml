@@ -35,6 +35,7 @@
                 android:layout_gravity="center"
                 android:rotation="270"
                 android:scaleType="fitXY"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/id_template"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -43,11 +44,11 @@
 
             <ImageView
                 android:id="@+id/id_template_bg"
-                android:layout_width="503dp"
+                android:layout_width="467dp"
                 android:layout_height="298dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="10dp"
                 android:contentDescription="TODO"
-
                 android:scaleType="fitXY"
                 android:src="@drawable/id_template_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -61,28 +62,71 @@
 
     <TextView
         android:id="@+id/id_template_ins_1"
-        android:layout_width="169dp"
-        android:layout_height="62dp"
+        android:layout_width="119dp"
+        android:layout_height="235dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="5dp"
         android:autoText="false"
         android:gravity="center"
-        android:rotation="270"
         android:text="@string/ins1"
         android:textAlignment="center"
         android:textSize="16sp"
+        android:textStyle="bold"
         tools:layout_editor_absoluteX="47dp" />
+
+    <LinearLayout
+        android:id="@+id/checklist"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="258dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/id_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:layout_marginBottom="20dp"/>
+
+        <CheckBox
+            android:id="@+id/name_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:layout_marginBottom="20dp"
+            />
+
+        <CheckBox
+            android:id="@+id/surname_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Surname"
+            android:layout_marginBottom="20dp"/>
+
+        <CheckBox
+            android:id="@+id/dob_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date of Birth"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/icon_id_front"
         android:layout_width="68dp"
         android:layout_height="59dp"
-        android:layout_below="@+id/nextButton"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/nextButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
         android:contentDescription="TODO"
-        android:rotation="0"
+
         app:srcCompat="@drawable/icon_id_front" />
 
     <ImageView
@@ -93,7 +137,7 @@
         android:layout_alignStart="@+id/icon_id_front"
         android:layout_marginBottom="41dp"
         android:contentDescription="TODO"
-        android:rotation="0"
+
         app:srcCompat="@drawable/icon_id_back" />
 
     <Button

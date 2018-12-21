@@ -9,7 +9,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import activities.FaceScanActivity;
@@ -63,6 +65,7 @@ public class OCR{
         item_list = new ArrayList<>();
 
         id_instance = new ID();
+
 
         if (!textRecognizer.isOperational()) {
             Log.w("MainActivity", "Detector dependencies are not yet available");
@@ -173,6 +176,14 @@ public class OCR{
                         if (isNumeric(item_list.get(index + 1))) {
                             validity_count++;
                             id_instance.setID(Long.parseLong(item_list.get(index + 1)));
+
+                            final CheckBox id_check = activity.findViewById(R.id.id_check);
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    id_check.setChecked(true);
+                                }
+                            });
                         }
                     }
                 }
@@ -184,6 +195,15 @@ public class OCR{
                         if (index + 1 <= item_list.size() - 1) {
                             validity_count++;
                             id_instance.setSURNAME(item_list.get(index + 1));
+                            final CheckBox sur_check = activity.findViewById(R.id.surname_check);
+                            activity.runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    sur_check.setChecked(true);
+                                }
+                            });
+
                         }
                     }
             }
@@ -192,6 +212,14 @@ public class OCR{
                     if (index + 1 <= item_list.size() - 1) {
                         validity_count++;
                         id_instance.setNAME(item_list.get(index + 1));
+                        final CheckBox name_check = activity.findViewById(R.id.name_check);
+                        activity.runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                name_check.setChecked(true);
+                            }
+                        });
                     }
                 }
             }
@@ -202,6 +230,14 @@ public class OCR{
                         if (index + 1 <= item_list.size() - 1) {
                             validity_count++;
                             id_instance.setDATE_OF_BIRTH(item_list.get(index + 1));
+                            final CheckBox dob_check = activity.findViewById(R.id.dob_check);
+                            activity.runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    dob_check.setChecked(true);
+                                }
+                            });
                         }
                     }
                 }
@@ -235,6 +271,14 @@ public class OCR{
     public boolean checkId_valid(){
         Log.w("Validity Count",validity_count+"");
         if(validity_count == 4){
+            final ImageView back = activity.findViewById(R.id.icon_id_back);
+
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    back.setImageResource(R.drawable.icon_id_back_fin);
+                }
+            });
             return true;
         }
         return false;

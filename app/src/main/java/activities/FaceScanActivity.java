@@ -31,6 +31,8 @@ public class FaceScanActivity extends AppCompatActivity {
         mPreview = CameraPreview.get_instance();
         mPreview.setActivity(this);
         mPreview.setContext(this);
+
+
         mPreview.setFaceDetectAndCrop(new FaceDetectAndCrop(this,this));
         final FrameLayout preview = findViewById(R.id.camera_preview);
 

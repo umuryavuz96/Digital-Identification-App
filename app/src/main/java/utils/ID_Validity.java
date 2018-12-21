@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
@@ -26,7 +27,7 @@ public class ID_Validity extends AsyncTask<byte[], Void, Boolean>{
     private Context context;
     private Activity activity;
     public static boolean valid = false;
-    private Float confidence_treshold = 85f;
+    private Float confidence_treshold = 90f;
     private ProgressDialog progressDoalog;
 
 
@@ -89,7 +90,15 @@ public class ID_Validity extends AsyncTask<byte[], Void, Boolean>{
         activity.runOnUiThread(new Runnable() {
             public void run() {
                 if(ID_Validity.valid) {
-                    IDScanActivity.icon_id_front.setImageResource(R.drawable.icon_id_front_fin);
+                    final ImageView front = activity.findViewById(R.id.icon_id_front);
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            front.setImageResource(R.drawable.icon_id_front_fin);
+                        }
+                    });
+
                     Toast.makeText(context,"ID is valid",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context,"ID is not valid",Toast.LENGTH_SHORT).show();

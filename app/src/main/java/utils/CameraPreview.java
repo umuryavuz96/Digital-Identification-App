@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.media.Image;
 import android.support.v4.app.ActivityCompat;
@@ -150,7 +151,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void setCameraSource(final FaceDetector faceDetector,Context c) {
         cameraSource = new CameraSource.Builder(c, faceDetector)
                 .setFacing(CameraSource.CAMERA_FACING_FRONT)
-                .setRequestedPreviewSize(1920, 1080)
+                .setRequestedPreviewSize(1280, 720)
                 .setRequestedFps(60.0f)
                 .setAutoFocusEnabled(true)
                 .build();
@@ -178,6 +179,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                         right = (float) (face.getWidth());
                         bottom = (float) (face.getHeight());
                         captureImage(left, top, right, bottom);
+                        faceDetector.release();
                     }
                 }
             }
@@ -205,13 +207,36 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         cameraSource.takePicture(null, new CameraSource.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes) {
-                Bitmap face = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                faceDetectAndCrop.setBitmap(face,left,top,right,bottom);
+                int orientation = Exif.getOrientation(bytes);
+                Bitmap   face = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap face_Bytes = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                switch(orientation) {
+                    case 90:
+                        face_Bytes= rotateImage(face, 90);
+                        break;
+                    case 180:
+                        face_Bytes= rotateImage(face, 180);
+                        break;
+                    case 270:
+                        face_Bytes= rotateImage(face, 270);
+                        break;
+                    case 0:
+                        // if orientation is zero we don't need to rotate this
+                    default:
+                        break;
+                }
+                //faceDetectAndCrop.setBitmap(face_Bytes,left,top,right,bottom);
+                faceDetectAndCrop.setBitmap(face_Bytes);
                 safeToTakePicture = true;
             }
         });
 
 
+    }
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     public static void check_ID_validity(){

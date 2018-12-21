@@ -157,7 +157,10 @@ public class FaceDetectAndCrop{
     public void setBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
 
-        crop_face.start();
+        if (crop_face.getState() == Thread.State.NEW)
+        {
+            crop_face.start();
+        }
         setProgressBar();
     }
 
@@ -168,12 +171,17 @@ public class FaceDetectAndCrop{
         this.bottom = bottom;
 
         mBitmap = bitmap;
-        crop_face2.start();
+
+
+        if (crop_face2.getState() == Thread.State.NEW)
+        {
+            crop_face2.start();
+        }
+
         setProgressBar();
     }
 
     public void setProgressBar(){
-        IDScanActivity.icon_id_back.setImageResource(R.drawable.icon_id_back_fin);
         progressDoalog = new ProgressDialog(context);
         progressDoalog.setMessage("Please wait ...");
         progressDoalog.setTitle("Image processing");
